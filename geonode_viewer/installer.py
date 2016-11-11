@@ -1,8 +1,8 @@
 __author__ = 'kamal'
 
 info = {
-    "title": "Geonode Viewer",
-    "description": "Configurable Map Viewer based on <a href='http://viewer.geonode.org/'>Geonode Viewer</a> ",
+    "title": "Geonode Map Viewer",
+    "description": "A configurable cartoview map viewer based on geonode viewer https://github.com/GeoNode/geonode-viewer",
     "author": 'Cartologic',
     "home_page": 'http://cartologic.com/cartoview/apps/geonode_viewer',
     "help_url": "http://cartologic.com/cartoview/apps/geonode_viewer/help/",
