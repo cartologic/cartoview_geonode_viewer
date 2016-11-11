@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" >
+    <link rel="stylesheet" href="{{ STATIC_URL }}geonode_viewer/css/components.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}geonode_viewer/app.css">
+    <title>{{ instance.title }}</title>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Object.assign"></script>
+    <script src="{{ STATIC_URL }}geonode_viewer/resources/ol3-cesium/Cesium.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div id='main'></div>
+
+    <script src="https://fb.me/react-15.0.0.js"></script>
+    <script src="https://fb.me/react-dom-15.0.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script src="https://boundlessgeo.github.io/sdk/dist/js/full.js"></script>
+    <script type="text/javascript">
+        var configURL = "{% url 'map_json' instance.map_id %}";
+        var appConfig = {{ instance.config | safe }};
+        var PROXY_URL = "";//"/cartoview_proxy/"
+    </script>
+    <script type="text/babel" src="{{ STATIC_URL }}geonode_viewer/app.jsx"></script>
+</body>
+</html>
+

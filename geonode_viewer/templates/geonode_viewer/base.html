@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Geonode Viewer{% endblock %}</title>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    {% url 'koko' 'geoserver' 'web' %}
+    {% block body %}{% endblock %}
+    {% block scripts %}{% endblock %}
+</body>
+</html>
