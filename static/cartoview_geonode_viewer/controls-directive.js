@@ -6,7 +6,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function(ur
         restrict: 'E',
         transclude: true,
         replace: true,
-        templateUrl: urlsHelper.static + "geonode_viewer/angular-templates/basic-controls.html",
+        templateUrl: urlsHelper.static + "cartoview_geonode_viewer/angular-templates/basic-controls.html",
         controller: function($scope, dataService, $mdMedia, $mdDialog) {
             $scope.instanceObj = dataService.instanceObj;
             $scope.selected = dataService.selected;

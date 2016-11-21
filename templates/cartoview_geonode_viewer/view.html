@@ -4,11 +4,11 @@
     <base target="_blank">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" >
-    <link rel="stylesheet" href="{{ STATIC_URL }}geonode_viewer/css/components.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}geonode_viewer/app.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}cartoview_geonode_viewer/css/components.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}cartoview_geonode_viewer/app.css">
     <title>{{ instance.title }}</title>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Object.assign"></script>
-    <script src="{{ STATIC_URL }}geonode_viewer/resources/ol3-cesium/Cesium.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ STATIC_URL }}cartoview_geonode_viewer/resources/ol3-cesium/Cesium.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
     <div id='main'></div>
@@ -22,7 +22,7 @@
         var appConfig = {{ instance.config | safe }};
         var PROXY_URL = "";//"/cartoview_proxy/"
     </script>
-    <script type="text/babel" src="{{ STATIC_URL }}geonode_viewer/app.jsx"></script>
+    <script type="text/babel" src="{{ STATIC_URL }}cartoview_geonode_viewer/app.jsx"></script>
 </body>
 </html>
 
