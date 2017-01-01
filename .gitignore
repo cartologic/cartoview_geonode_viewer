@@ -89,4 +89,3 @@ ENV/
 .ropeproject
 node_modules/
 dist/
-.bowerrc
