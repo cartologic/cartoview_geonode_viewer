@@ -3,26 +3,29 @@
 <head>
     <base target="_blank">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" >
-    <link rel="stylesheet" href="{{ STATIC_URL }}cartoview_geonode_viewer/css/components.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}cartoview_geonode_viewer/app.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
     <title>{{ instance.title }}</title>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Object.assign"></script>
-    <script src="{{ STATIC_URL }}cartoview_geonode_viewer/resources/ol3-cesium/Cesium.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ STATIC_URL }}cartoview_geonode_viewer/resources/ol3-cesium/Cesium.js" type="text/javascript"
+            charset="utf-8"></script>
+
 </head>
 <body>
-    <div id='main'></div>
-
-    <script src="https://fb.me/react-15.0.0.js"></script>
-    <script src="https://fb.me/react-dom-15.0.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
-    <script src="https://boundlessgeo.github.io/sdk/dist/js/full.js"></script>
-    <script type="text/javascript">
-        var configURL = "{% url 'map_json' instance.map_id %}";
-        var appConfig = {{ instance.config | safe }};
-        var PROXY_URL = "";//"/cartoview_proxy/"
-    </script>
-    <script type="text/babel" src="{{ STATIC_URL }}cartoview_geonode_viewer/app.jsx"></script>
+<div id='main'></div>
+<script type="text/javascript">
+    var configURL = "{% url 'map_json' instance.map_id %}";
+    var appConfig = {{ instance.config | safe }};
+    var abstract = " {% spaceless %}{{ instance.abstract|title }}{% endspaceless %} ";
+    var title = "{{ instance.title }}";
+    var PROXY_URL = "/cartoview_proxy/"
+</script>
+<script src="{{ STATIC_URL }}cartoview_geonode_viewer/dist/Viewer.js"></script>
+<script>
+    var v = new this.Viewer('main');
+    v.view();
+</script>
 </body>
 </html>
 

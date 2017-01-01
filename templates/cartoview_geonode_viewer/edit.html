@@ -1,36 +1,70 @@
 {% extends "cartoview/base.html" %}
 {% block title %}
-    {{ block.super }} - {% if instance %}{{ instance.title  }}{% else %}New Map Viewer{% endif %}
+    {{ block.super }} - {% if instance %}{{ instance.title }}{% else %}New Map Viewer{% endif %}
 {% endblock %}
 {% block styles %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <style>
+        .dialogdemoBasicUsage #popupContainer {
+            position: relative;
+        }
+
+        .dialogdemoBasicUsage .footer {
+            width: 100%;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+        .dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+            font-size: 0.8em;
+            margin-top: 50px;
+        }
+
+        .dialogdemoBasicUsage button {
+            width: 200px;
+        }
+
+        .dialogdemoBasicUsage div#status {
+            color: #c60008;
+        }
+
+        .dialogdemoBasicUsage .dialog-demo-prerendered md-checkbox {
+            margin-bottom: 0;
+        }
+    </style>
     <link rel="stylesheet" href="{{ STATIC_URL }}cartoview_map_viewer/css/edit.css">
     {% for w in widgets %}
-        {% for css_url in w.config.css %}<link rel="stylesheet" href="{{ css_url }}">{% endfor %}
+        {% for css_url in w.config.css %}
+            <link rel="stylesheet" href="{{ css_url }}">{% endfor %}
     {% endfor %}
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/angular-resource/angular-resource.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}vendor/angular-resource-tastypie/src/angular-resource-tastypie.min.js"></script>
+    <script type="text/javascript"
+            src="{{ STATIC_URL }}vendor/angular-resource-tastypie/src/angular-resource-tastypie.min.js"></script>
     {% include "cartoview_map_viewer/dynamic_edit_js.html" %}
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview_map_viewer/js/edit.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview_map_viewer/js/edit/data-service.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}cartoview_map_viewer/js/edit/map-selector-directive.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}cartoview_map_viewer/js/edit/basic-config-directive.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}cartoview_map_viewer/js/edit/actions-bar-directive.js"></script>
+    <script type="text/javascript"
+            src="{{ STATIC_URL }}cartoview_map_viewer/js/edit/map-selector-directive.js"></script>
+    <script type="text/javascript"
+            src="{{ STATIC_URL }}cartoview_map_viewer/js/edit/basic-config-directive.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}cartoview_geonode_viewer/actions-bar-directive.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview_geonode_viewer/controls-directive.js"></script>
 {% endblock %}
 {% block body_directives %}ng-app="cartoview.viewer.editor"{% endblock %}
 {% block body %}
-<div layout="row" layout-align="center center" layout-wrap>
-    <md-content layout-padding flex-gt-sm="70" flex="100">
-        <h4>{% if instance %}Edit: {{ instance.title  }}{% else %}New Map Viewer{% endif %}</h4>
-        <map-selector></map-selector>
-        <div ng-if="selected.map">
-            <basic-config></basic-config>
-            <basic-controls></basic-controls>
-            <actions-bar></actions-bar>
-        </div>
-    </md-content>
-</div>
+    <div layout="row" layout-align="center center" layout-wrap>
+        <md-content layout-padding flex-gt-sm="70" flex="100">
+            <h4>{% if instance %}Edit: {{ instance.title }}{% else %}New Map Viewer{% endif %}</h4>
+            <map-selector></map-selector>
+            <div ng-if="selected.map">
+                <basic-config></basic-config>
+                <basic-controls></basic-controls>
+                <actions-bar></actions-bar>
+            </div>
+        </md-content>
+    </div>
 
 {% endblock %}

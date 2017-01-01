@@ -1,0 +1,23 @@
+{
+  "name": "cartoview",
+  "authors": [
+    "Cartologic"
+  ],
+  "description": "cartoview client scripts",
+  "main": "",
+  "license": "MIT",
+  "homepage": "http://cartologic.com/cartoview/",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "^15.4.1",
+    "jquery": "^3.1.1"
+  }
+}
