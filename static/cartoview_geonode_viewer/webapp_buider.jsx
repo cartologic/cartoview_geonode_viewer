@@ -34,12 +34,13 @@ import Rotate from 'boundless-sdk/components/Rotate';
 import ToolActions from 'boundless-sdk/actions/ToolActions';
 import WFST from 'boundless-sdk/components/WFST';
 import Zoom from 'boundless-sdk/components/Zoom';
-import ZoomSlider from 'boundless-sdk/components/ZoomSlider';
+// import ZoomSlider from 'boundless-sdk/components/ZoomSlider';
 import 'boundless-sdk/dist/css/components.css';
 import MapConfigTransformService from 'boundless-sdk/services/MapConfigTransformService';
 import MapConfigService from 'boundless-sdk/services/MapConfigService';
 import './app.css';
 import CartoviewDrawer from './cartoview_drawer'
+
 injectTapEventPlugin();
 var printLayouts = [{
     name: 'Layout 1',
@@ -156,7 +157,7 @@ class GeoNodeViewer extends React.Component {
                 "units": appConfig.scalebar_config.units
             }))
         }
-        if(appConfig.showZoomSlider){
+        if (appConfig.showZoomSlider) {
             map.addControl(new ol.control.ZoomSlider());
         }
     }
@@ -203,10 +204,9 @@ class GeoNodeViewer extends React.Component {
         const homeBtn = appConfig.showHome ?
             <div id='home-button'><HomeButton tooltipPosition='left' map={map}/></div> : '';
         const layerSwitcher = appConfig.showLayerSwitcher ?
-            <div><LayerList allowFiltering={true} showOpacity={true} showDownload={true} showGroupContent={true}
-                            showZoomTo={true} allowReordering={true} includeLegend={appConfig.showLegend}
-                            map={map}/>
-            </div> : '';
+            <LayerList allowFiltering={true} showOpacity={true} showDownload={true} showGroupContent={true}
+                       showZoomTo={true} allowReordering={true} includeLegend={appConfig.showLegend}
+                       map={map}/> : '';
         const zoomControls = appConfig.showZoomControls ?
             React.createElement("div", {id: 'zoom-buttons'},
                 React.createElement(Zoom, {
@@ -221,7 +221,7 @@ class GeoNodeViewer extends React.Component {
                 id: 'query-panel',
                 className: 'query-panel'
             },
-            React.createElement(QueryBuilder, {map: map})
+            <QueryBuilder map={map}/>
         ) : "";
         const measure = appConfig.showMeasure ? React.createElement(Measure, {
             toggleGroup: 'navigation',
@@ -278,14 +278,10 @@ class GeoNodeViewer extends React.Component {
         const WFS_T_panel = appConfig.showWFS_T ? React.createElement("div", {id: 'wfst', ref: 'wfstPanel'},
             React.createElement(WFST, {map: map})
         ) : "";
-        const table_panel = appConfig.showAttributesTable ? React.createElement("div", {
-                id: 'table-panel',
-                className: 'attributes-table'
-            },
-            <FeatureTable ref='table' map={map}/>,
-        ) : "";
-        const geocode_search = appConfig.showGeoCoding ? <Geocoding
-            maxResult={50}/> : "";
+        const table_panel = appConfig.showAttributesTable ?
+            <div ref='tablePanel' id='table-panel' className='attributes-table'><FeatureTable ref='table'
+                                                                                              map={map}/></div> : "";
+        const geocode_search = appConfig.showGeoCoding ? <Geocoding maxResult={5}/> : "";
         const geocoding_results = appConfig.showGeoCoding ? React.createElement("div", {
             id: 'geocoding-results',
             className: 'geocoding-results-panel'

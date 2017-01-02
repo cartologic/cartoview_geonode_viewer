@@ -33,13 +33,16 @@ export default class CartoviewAbout extends React.Component {
                     primaryText="Show About Dialog"
                 />
                 <Dialog
-                    title="Map Information"
+                    title={title}
                     actions={actions}
                     modal={false}
                     open={this.state.open}
                     onRequestClose={this._handleClose.bind(this)}
+                    autoScrollBodyContent={true}
+                    contentClassName="dialog"
+                    bodyClassName="dialog_body"
                 >
-                    <div><h1>{title}</h1><p>{abstract}</p>
+                    <div ><p>{abstract}</p>
                     </div>
                 </Dialog>
             </div>
