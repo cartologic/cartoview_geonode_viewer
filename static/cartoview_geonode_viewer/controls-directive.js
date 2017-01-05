@@ -27,11 +27,13 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 zoomOutTipLabel: "Zoom Out"
             };
             var layersDict = {};
+            var layerNames = [];
             $scope.mapLayers = [];
             angular.forEach(dataService.selected.map.map_layers, function (layer) {
                 if (!layer.fixed) {
                     layer.params = JSON.parse(layer.layer_params);
-                    layersDict[layer.name] = layer;
+                    layerNames.push(layer.name);
+                    layersDict[layer.name.split(':')[1]] = layer;
                     var layerInfo = {
                         name: layer.name,
                         title: layer.params.title
@@ -39,7 +41,9 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                     $scope.mapLayers.push(layerInfo);
                 }
             });
-            console.log(layersDict);
+
+            console.log(layersDict['historic_pnt']);
+            console.log(layerNames);
             $scope.openDialog = function ($event) {
                 $mdDialog.show({
                     controller: ScaleDialogController,
@@ -186,15 +190,51 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                         parent: $scope
                     }
                 }).then(function (answer) {
-                    $scope.instanceObj.config.zoom_config = answer;
+                    console.log(answer)
+                    $scope.instanceObj.config.charts = answer;
                 }, function () {
                     console.log("Canceled")
                 });
             };
-            function ChartsDialogController($scope, $mdDialog, parent) {
-                $scope.layers = parent.layersDict;
-                $scope.modeChanged = function () {
+            function ChartsDialogController($scope, $mdDialog, parent, $http) {
+                $scope.layers = layerNames;
+                var featureTypes_objects = [];
+                $http.get("/cartoview_proxy/http://localhost:4041/geoserver/wfs?service=WFS&request=DescribeFeatureType&outputFormat=application/json")
+                    .then(function (response) {
+                        console.log(response.data.featureTypes);
+                        featureTypes_objects = response.data.featureTypes;
+                    });
+                $scope.layer_nameChanged = function () {
+                    if ($scope.layer_name !== undefined) {
+                        var Categories = [];
+                        for (var i = 0; i < featureTypes_objects.length; i++) {
+                            if ($scope.layer_name.split(':')[1] == featureTypes_objects[i].typeName) {
+                                for (var j = 0; j < featureTypes_objects[i].properties.length; j++) {
+                                    if (featureTypes_objects[i].properties[j].type.split(':')[0] != "gml") {
+                                        Categories.push(featureTypes_objects[i].properties[j].name)
+                                    }
+                                }
+                                break
+                            }
+                        }
+                        $scope.Categories = Categories;
+                    }
 
+                };
+                $scope.selectedvalues = [];
+                $scope.ValueFieldsChanged = function () {
+                    console.log($scope)
+                };
+                $scope.charts = [];
+                $scope.add = function () {
+                    $scope.charts.push({
+                        title: $scope.title,
+                        categoryField: $scope.category_field,
+                        layer: $scope.layer_name,
+                        valueFields: $scope.selectedvalues,
+                        displayMode: $scope.operation,
+                        operation: $scope.displayMode
+                    })
                 };
                 $scope.hide = function () {
                     $mdDialog.hide();

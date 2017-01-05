@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GeoNodeViewerDebug from './webapp_builder_debug';
+import CartoviewViewerDebug from './webapp_builder_debug';
 import {IntlProvider} from 'react-intl';
 class Viewer {
     constructor(domId, config) {
@@ -14,7 +14,7 @@ class Viewer {
 
     view() {
         ReactDOM.render(<IntlProvider locale='en'>
-            <GeoNodeViewerDebug config={this.mapConfig}/>
+            <CartoviewViewerDebug config={this.mapConfig}/>
         </IntlProvider>, document.getElementById(this.domId));
     }
 }

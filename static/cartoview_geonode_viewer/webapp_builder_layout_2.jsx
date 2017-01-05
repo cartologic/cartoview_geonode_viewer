@@ -3,7 +3,6 @@ global.React = React;
 import ReactDOM from 'react-dom';
 global.ReactDOM = ReactDOM;
 import ol from './node_modules/boundless-sdk/node_modules/openlayers';
-import './map'
 import {IntlProvider} from 'react-intl';
 global.IntlProvider = IntlProvider;
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -11,7 +10,6 @@ import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Geocoding from 'boundless-sdk/components/Geocoding';
-import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
 import Bookmarks from 'boundless-sdk/components/Bookmarks';
 import Chart from 'boundless-sdk/components/Chart';
 import Edit from 'boundless-sdk/components/Edit';
@@ -36,9 +34,9 @@ import Zoom from 'boundless-sdk/components/Zoom';
 import 'boundless-sdk/dist/css/components.css';
 import MapConfigTransformService from 'boundless-sdk/services/MapConfigTransformService';
 import MapConfigService from 'boundless-sdk/services/MapConfigService';
-import './app.css';
-import CartoviewDrawer from './cartoview_drawer';
-
+import './layout_2.css';
+import CartoviewAppBar from './cartoview_appbar';
+import './map'
 injectTapEventPlugin();
 let printLayouts = [{
     name: 'Layout 1',
@@ -237,27 +235,18 @@ class CartoviewViewer extends React.Component {
                                          autoPlay={appConfig.playback_config.autoPlay}
                                          className={"playback"}/></div> : "";
         const load = appConfig.showLoadingPanel ? React.createElement(LoadingPanel, {map: map}) : "";
-        if (appConfig.showCharts) {
-            map.once('postrender', function (event) {
-                for (var i = 0; i < map.getLayers().getArray().length; i++) {
-                    for (var j = 0; j < appConfig.charts.length; j++) {
-                        if (map.getLayers().item(i).get('name') == appConfig.charts[j].layer) {
-                            appConfig.charts[j].layer = map.getLayers().item(i).get('id')
-                        }
-
-                    }
-                }
-            });
-
-            for (var i = 0; i < appConfig.charts.length; i++) {
-
-                appConfig.charts[i].displayMode = parseInt(appConfig.charts[i].displayMode);
-                appConfig.charts[i].operation = parseInt(appConfig.charts[i].operation);
-            }
-        }
-
-
-        var charts = appConfig.showCharts ? appConfig.charts : [];
+        var charts = [{
+            title: 'TEST',
+            categoryField: 'NodeId',
+            layer: "sdk-layer-4",
+            valueFields: ["NodeId"],
+            displayMode: 0,
+            operation: 0
+        }];
+        const charts_button = appConfig.showCharts ? React.createElement(Chart, {
+            container: 'chart-panel',
+            charts: charts
+        }) : "";
         const charts_panel = appConfig.showCharts ? React.createElement("div", {
                 id: 'chart-panel',
                 className: 'chart-panel'
@@ -293,27 +282,19 @@ class CartoviewViewer extends React.Component {
             id: 'geocoding-results',
             className: 'geocoding-results-panel'
         }, <GeocodingResults map={map}/>) : "";
-        const menu_bar = React.createElement("div", {id: "menu_bar"},
-            React.createElement("div", {style: {display: "flex"}}, React.createElement(CartoviewDrawer), geocode_search), geocoding_results
-        );
+
         let info_popup = appConfig.showInfoPopup ? <InfoPopup toggleGroup='navigation' toolId='nav'
                                                               infoFormat='application/vnd.ogc.gml' map={map}/> : "";
         let edit_popup = appConfig.showEditPopup ? <EditPopup map={map}/> : "";
         if (appConfig.showEditPopup && appConfig.showInfoPopup) {
             info_popup = "";
         }
+        const app_bar = React.createElement(CartoviewAppBar);
         /* end controllers */
         return (
             <div id='content'>
-                <AddLayerModal map={map} allowUserInput={true}
-                               sources={[{
-                                   url: '/cartoview_proxy/http://localhost:4041/geoserver/wms',
-                                   type: 'WMS',
-                                   title: 'Local GeoServer'
-                               }]}/>
+                {app_bar}
                 {error}
-                {menu_bar}
-
                 <MapPanel useHistory={true} id='map' map={map}/>
                 {globe}
                 {print}
@@ -323,7 +304,7 @@ class CartoviewViewer extends React.Component {
                 {zoomControls}
                 {load}
                 {query_panel}
-                {table_panel}
+                {/*{table_panel}*/}
                 {WFS_T_panel}
                 {North}
                 {charts_panel}
@@ -337,7 +318,6 @@ class CartoviewViewer extends React.Component {
         );
     }
 }
-
 CartoviewViewer.props = {
     config: React.PropTypes.object,
     proxy: React.PropTypes.string,

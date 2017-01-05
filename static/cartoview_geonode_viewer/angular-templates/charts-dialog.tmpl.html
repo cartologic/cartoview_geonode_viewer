@@ -11,7 +11,8 @@
         </md-toolbar>
 
         <md-dialog-content>
-            <div layout="row" layout-align="center center" style="margin-bottom: 10px; min-width: 700px;">{{ message }}</div>
+            <div layout="row" layout-align="center center"
+                 style="margin-bottom: 10px; min-width: 700px;">{{ message }}</div>
             <div class="md-dialog-content">
                 <div layout="row" layout="column">
                     <div flex="70" style="border-right: 2px solid #989898;" layout-margin="10px">
@@ -34,11 +35,12 @@
                             </md-input-container>
                             <md-input-container>
                                 <label>Layer</label>
-                                <md-select name="layer_name" ng-model="layer_name" ng-change="layer_nameChanged()"
+                                <md-select name="layer_name" ng-model="layer_name"
+                                           ng-change="layer_nameChanged()"
                                            required>
-                                    <md-option value="0" selected>layer1</md-option>
-                                    <md-option value="1">layer2</md-option>
-                                    <md-option value="2">layer3</md-option>
+                                    <md-option ng-value="layer"
+                                               ng-repeat="layer in layers">{{ layer }}</md-option>
+
                                 </md-select>
                                 <div class="errors" ng-messages="myForm.units.$error">
                                     <div ng-message="required">Required</div>
@@ -46,12 +48,12 @@
                             </md-input-container>
                             <md-input-container>
                                 <label>Category Field</label>
-                                <md-select name="categoryField" ng-model="categoryField"
+                                <md-select name="categoryField" ng-model="category_field"
                                            ng-change="categoryFieldChanged()"
                                            required>
-                                    <md-option value="0" selected>layer1</md-option>
-                                    <md-option value="1">layer2</md-option>
-                                    <md-option value="2">layer3</md-option>
+                                    <md-option ng-value="category"
+                                               ng-repeat="category in Categories">{{ category }}</md-option>
+
                                 </md-select>
                                 <div class="errors" ng-messages="myForm.units.$error">
                                     <div ng-message="required">Required</div>
@@ -59,19 +61,19 @@
                             </md-input-container>
                             <md-input-container>
                                 <label>Value Fields</label>
-                                <md-select name="valueFields" ng-model="valueFields"
-                                           ng-change="valueFieldsChanged()"
+                                <md-select ng-model="selectedvalues" ng-change="ValueFieldsChanged()" multiple=""
                                            required>
-                                    <md-option value="0" selected>field1</md-option>
-                                    <md-option value="1">field2</md-option>
-                                    <md-option value="2">field3</md-option>
+                                    <md-optgroup label="Fields">
+                                        <md-option ng-value="category"
+                                                   ng-repeat="category in Categories">{{ category }}</md-option>
+                                    </md-optgroup>
                                 </md-select>
                                 <div class="errors" ng-messages="myForm.units.$error">
                                     <div ng-message="required">Required</div>
                                 </div>
                             </md-input-container>
                             <md-input-container>
-                                <label>Value Fields</label>
+                                <label>Operation for aggregation</label>
                                 <md-select name="operation" ng-model="operation"
                                            ng-change="operationChanged()"
                                            required>
@@ -80,6 +82,7 @@
                                     <md-option value="2">Sum</md-option>
                                     <md-option value="3">Average</md-option>
                                 </md-select>
+
                                 <div class="errors" ng-messages="myForm.units.$error">
                                     <div ng-message="required">Required</div>
                                 </div>
@@ -99,14 +102,14 @@
                     </div>
                 </div>
                 <div layout="row">
-                    <md-button ng-click="answer(north_config)" class="md-raised md-primary">Add/Modify</md-button
-                    <md-button ng-click="answer(north_config)" class="md-raised md-primary">Remove</md-button>
+                    <md-button ng-click="add()" class="md-raised md-primary">Add</md-button>
+                    <md-button ng-click="remove()" class="md-raised md-primary">Remove</md-button>
                 </div>
             </div>
         </md-dialog-content>
 
         <md-dialog-actions layout="row">
-            <md-button ng-click="answer(north_config)" class="md-raised md-primary">Confirm</md-button>
+            <md-button ng-click="answer(charts)" class="md-raised md-primary">Confirm</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>

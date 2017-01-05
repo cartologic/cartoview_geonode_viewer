@@ -8,6 +8,7 @@
           rel="stylesheet">
     <title>{{ instance.title }}</title>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Object.assign"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="{{ STATIC_URL }}cartoview_geonode_viewer/resources/ol3-cesium/Cesium.js" type="text/javascript"
             charset="utf-8"></script>
 
@@ -21,10 +22,21 @@
     var title = "{{ instance.title }}";
     var PROXY_URL = "/cartoview_proxy/"
 </script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{{ STATIC_URL }}cartoview_geonode_viewer/jquery.ui.touch-punch.min.js"></script>
 <script src="{{ STATIC_URL }}cartoview_geonode_viewer/dist/Viewer.js"></script>
 <script>
     var v = new this.Viewer('main');
     v.view();
+</script>
+<script>
+    $(function () {
+        $("#playback").draggable();
+        $("#edit-tool-panel").draggable();
+        $("#wfst").draggable();
+        $("#query-panel").draggable();
+    });
 </script>
 </body>
 </html>

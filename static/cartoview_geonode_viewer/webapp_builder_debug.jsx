@@ -1,7 +1,7 @@
 import React from 'react';
-import GeoNodeViewer from './webapp_buider';
+import CartoviewViewer from './webapp_buider';
 
-class GeoNodeViewerDebug extends React.Component {
+class CartoviewViewerDebug extends React.Component {
     constructor(props) {
         super(props);
         this.state = {config: this.props.config};
@@ -44,13 +44,13 @@ class GeoNodeViewerDebug extends React.Component {
     render() {
         return (
             <div>
-                <GeoNodeViewer config={this.state.config} proxy={PROXY_URL}/>
+                <CartoviewViewer config={this.state.config} proxy={PROXY_URL}/>
             </div>
         )
     }
 }
-GeoNodeViewer.props = {
-  config: React.PropTypes.object.isRequired
+CartoviewViewer.props = {
+    config: React.PropTypes.object.isRequired
 };
-export default GeoNodeViewerDebug;
-global.GeoNodeViewerDebug = GeoNodeViewerDebug;
+export default CartoviewViewerDebug;
+global.CartoviewViewerDebug = CartoviewViewerDebug;

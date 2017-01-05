@@ -28,9 +28,9 @@ export default class CartoviewAbout extends React.Component {
 
         return (
             <div>
-                <MenuItem
-                    onTouchTap={this._handleOpen.bind(this)}
-                    primaryText="Show About Dialog"
+                <MenuItem leftIcon={<i className="material-icons">info_outline</i>}
+                          onTouchTap={this._handleOpen.bind(this)}
+                          primaryText="Show About Dialog"
                 />
                 <Dialog
                     title={title}
