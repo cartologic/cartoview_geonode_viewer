@@ -27,15 +27,19 @@
 <script src="{{ STATIC_URL }}cartoview_geonode_viewer/jquery.ui.touch-punch.min.js"></script>
 <script src="{{ STATIC_URL }}cartoview_geonode_viewer/dist/Viewer.js"></script>
 <script>
-    var v = new this.Viewer('main');
-    v.view();
-</script>
-<script>
     $(function () {
         $("#playback").draggable();
         $("#edit-tool-panel").draggable();
         $("#wfst").draggable();
         $("#query-panel").draggable();
+        $("#query-panel input").click(function () {
+            $(this).focus();
+        });
+        $("#geocoding-results").draggable();
+        $("#geocoding-results input").click(function () {
+            $(this).focus();
+        });
+        $("#float_control").draggable();
     });
 </script>
 </body>

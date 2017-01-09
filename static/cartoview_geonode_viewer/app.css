@@ -386,13 +386,48 @@ html, body {
     cursor: pointer;
 }
 
+.ol-zoomslider {
+    background: rgba(16, 168, 187, 0.48) !important;
+    padding: 0px !important;
+    top: 4.5em;
+    left: .5em;
+    height: 152px;
+    border-radius: 10px !important;
+    border-style: solid;
+    border-width: thin;
+    border-color: rgba(141, 141, 179, 0.76);
+}
+
+.ol-zoomslider:hover {
+    background-color: rgba(16, 168, 187, 0.48) !important;
+}
+
+.ol-zoomslider-thumb {
+    top: 183px;
+}
+
+.ol-zoomslider button {
+    position: relative;
+    height: 15px;
+    width: 15px !important;
+    border-radius: 25px !important;
+    background-color: rgba(1, 3, 56, 0.38) !important;
+}
+
 @media screen and (max-width: 480px) {
     body {
         cursor: pointer;
     }
 
-    .ol-zoomslider-thumb {
-        top: 190px !important;
+    .ol-zoomslider {
+        left: .5em;
+        height: 150px !important;
+        background: rgba(16, 168, 187, 0.48) !important;
+        padding: 0px !important;
+        border-radius: 10px !important;
+        border-style: solid;
+        border-width: thin;
+        border-color: rgba(141, 141, 179, 0.76);
     }
 
     .geocoding {
@@ -429,13 +464,15 @@ html, body {
 
 @media screen and (max-height: 414px) {
     .ol-zoomslider {
-        top: 3.8em !important;
+        top : 4.0em !important;
         left: .5em;
         height: 150px !important;
-    }
-
-    .ol-zoomslider-thumb {
-        top: 140px !important
+        background: rgba(0, 188, 212, 0.15) !important;
+        padding: 0px !important;
+        border-radius: 10px !important;
+        border-style: solid;
+        border-width: thin;
+        border-color: rgba(141, 141, 179, 0.76);
     }
 
     #globe-button {

@@ -19,5 +19,5 @@ class Viewer {
     }
 }
 module.exports = Viewer;
-// let viewer = new Viewer('main');
-// viewer.view();
+let viewer = new Viewer('main');
+viewer.view();

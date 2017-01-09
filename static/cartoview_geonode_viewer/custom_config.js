@@ -25,7 +25,11 @@ module.exports = {
         publicPath: "/dist/"
     },
     node: {fs: "empty"},
-    plugins: plugins,
+    plugins: [new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
+        sourceMap: false,
+        mangle: false
+    })],
     resolve: {
         extensions: ['', '.js', '.jsx']
     },

@@ -6,7 +6,9 @@ import Select from 'boundless-sdk/components/Select';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Navigation from 'boundless-sdk/components/Navigation';
+import FeatureTable from 'boundless-sdk/components/FeatureTable';
 import AddLayer from './node_modules/boundless-sdk/components/AddLayer.js';
+import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
 import ImageExport from 'boundless-sdk/components/ImageExport';
 import AppBar from 'material-ui/AppBar';
 import MapConfig from 'boundless-sdk/components/MapConfig';
@@ -34,6 +36,11 @@ export default class CartoviewDrawer extends React.Component {
     _toggleTable() {
         this._toggle(document.getElementById('table-panel'));
         this.refs.table.getWrappedInstance().setDimensionsOnState();
+
+    }
+
+    _toggleAddLayerModal() {
+        this.refs.layerModal.getWrappedInstance().open();
 
     }
 
@@ -96,7 +103,22 @@ export default class CartoviewDrawer extends React.Component {
                       onTouchTap={this._toggleChartPanel.bind(this)}
                       primaryText="Charts"
             /> : "";
+        const table_panel = appConfig.showAttributesTable ?
+            <div ref='tablePanel' id='table-panel' className='attributes-table'><FeatureTable ref='table'
+                                                                                              map={map}/></div> : "";
 
+        const add_layer_modal = appConfig.showAddLayerModal ?
+            <MenuItem leftIcon={<i className="material-icons">layers</i>}
+                      onTouchTap={this._toggleAddLayerModal.bind(this)}
+                      primaryText="Add Layers(Geoserver)"
+            /> : "";
+        const geoserver_modal = appConfig.showAddLayerModal ?
+            <div><AddLayerModal ref="layerModal" map={map} allowUserInput={true}
+                                sources={[{
+                                    url: '/cartoview_proxy/http://localhost:4041/geoserver/wms',
+                                    type: 'WMS',
+                                    title: 'Local GeoServer'
+                                }]}/></div> : "";
 
         return (
 
@@ -112,6 +134,7 @@ export default class CartoviewDrawer extends React.Component {
                             iconElementLeft={<IconButton><i className="material-icons">map</i></IconButton>}
                             style={{height: 71}}
                             iconElementRight={<IconButton onTouchTap={this._handleToggle.bind(this)}><NavigationClose /></IconButton>}/>
+                    {add_layer_modal}
                     {WFS_T}
                     {AttributesTable}
                     {playback}
@@ -130,6 +153,8 @@ export default class CartoviewDrawer extends React.Component {
                         {export_image}
                     </div>
                 </Drawer>
+                {table_panel}
+                {geoserver_modal}
             </div>
         );
     }

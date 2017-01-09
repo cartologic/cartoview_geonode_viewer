@@ -69,6 +69,7 @@
     "through": "^2.3.8",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2",
+    "webpack-uglify-js-plugin": "^1.1.9",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {

@@ -16,7 +16,6 @@ import Bookmarks from 'boundless-sdk/components/Bookmarks';
 import Chart from 'boundless-sdk/components/Chart';
 import Edit from 'boundless-sdk/components/Edit';
 import EditPopup from 'boundless-sdk/components/EditPopup';
-import FeatureTable from 'boundless-sdk/components/FeatureTable';
 import GeocodingResults from 'boundless-sdk/components/GeocodingResults';
 import Geolocation from 'boundless-sdk/components/Geolocation';
 import Globe from 'boundless-sdk/components/Globe';
@@ -69,20 +68,6 @@ let printLayouts = [{
     }],
     height: 297.0
 }];
-var defaultFill = new ol.style.Fill({
-    color: 'rgba(255,255,255,0.4)'
-});
-var defaultStroke = new ol.style.Stroke({
-    color: '#030102',
-    width: 1.25
-});
-var defaultSelectionFill = new ol.style.Fill({
-    color: 'rgba(255,255,0,0.4)'
-});
-var defaultSelectionStroke = new ol.style.Stroke({
-    color: '#ff7f7d',
-    width: 1.25
-});
 class CartoviewViewer extends React.Component {
     constructor(props) {
         super(props);
@@ -262,14 +247,15 @@ class CartoviewViewer extends React.Component {
                 id: 'chart-panel',
                 className: 'chart-panel'
             },
-            React.createElement("a", {
+            React.createElement('div', {className: 'close'}, React.createElement("a", {
                     href: '#',
                     id: 'chart-panel-closer',
                     className: 'chart-panel-closer',
                     onClick: this._toggleChartPanel.bind(this)
                 },
                 "X"
-            ),
+            ))
+            ,
             <Chart ref='chartPanel' combo={true} charts={charts}/>
         ) : "";
 
@@ -285,9 +271,6 @@ class CartoviewViewer extends React.Component {
         const WFS_T_panel = appConfig.showWFS_T ? React.createElement("div", {id: 'wfst', ref: 'wfstPanel'},
             React.createElement(WFST, {map: map})
         ) : "";
-        const table_panel = appConfig.showAttributesTable ?
-            <div ref='tablePanel' id='table-panel' className='attributes-table'><FeatureTable ref='table'
-                                                                                              map={map}/></div> : "";
         const geocode_search = appConfig.showGeoCoding ? <Geocoding maxResult={5}/> : "";
         const geocoding_results = appConfig.showGeoCoding ? React.createElement("div", {
             id: 'geocoding-results',
@@ -323,7 +306,6 @@ class CartoviewViewer extends React.Component {
                 {zoomControls}
                 {load}
                 {query_panel}
-                {table_panel}
                 {WFS_T_panel}
                 {North}
                 {charts_panel}
