@@ -20,7 +20,7 @@ module.exports = {
         library: '[name]',
         libraryTarget: 'umd',
         umdNamedDefine: true,
-        publicPath: "/dist/"
+        publicPath: "/static/cartoview_geonode_viewer/dist/"
     },
     node: {fs: "empty"},
     plugins: plugins,
