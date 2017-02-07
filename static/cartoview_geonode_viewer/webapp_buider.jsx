@@ -290,7 +290,7 @@ class CartoviewViewer extends React.Component {
             <div id='content'>
                 <AddLayerModal map={map} allowUserInput={true}
                                sources={[{
-                                   url: '/cartoview_proxy/http://localhost:4041/geoserver/wms',
+                                   url: '/geoserver/wms',
                                    type: 'WMS',
                                    title: 'Local GeoServer'
                                }]}/>

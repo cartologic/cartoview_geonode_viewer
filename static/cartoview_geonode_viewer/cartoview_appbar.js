@@ -169,7 +169,7 @@ export default class CartoviewAppBar extends React.Component {
         const geoserver_modal = appConfig.showAddLayerModal ?
             <div><AddLayerModal ref="layerModal" map={map} allowUserInput={true}
                                 sources={[{
-                                    url: '/cartoview_proxy/http://localhost:4041/geoserver/wms',
+                                    url: '/geoserver/wms',
                                     type: 'WMS',
                                     title: 'Local GeoServer'
                                 }]}/></div> : "";
