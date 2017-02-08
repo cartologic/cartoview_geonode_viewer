@@ -22,14 +22,10 @@ module.exports = {
         library: '[name]',
         libraryTarget: 'umd',
         umdNamedDefine: true,
-        publicPath: "/dist/"
+        publicPath: "/static/cartoview_geonode_viewer/dist/"
     },
     node: {fs: "empty"},
-    plugins: [new webpack.optimize.UglifyJsPlugin({
-        minimize: true,
-        sourceMap: false,
-        mangle: false
-    })],
+    plugins: [],
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
