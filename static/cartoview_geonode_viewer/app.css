@@ -136,6 +136,11 @@ html, body {
     right: 20px;
 }
 
+.layer-switcher.shown .layer-tree-panel {
+    display: block;
+    padding-right: 20px;
+}
+
 .attributes-table {
     display: none;
     position: absolute;
@@ -143,7 +148,7 @@ html, body {
     left: 0;
     height: 50%;
     width: 100%;
-    z-index: 101;
+    /*z-index: 101;*/
 }
 
 .layerselect {
@@ -464,7 +469,7 @@ html, body {
 
 @media screen and (max-height: 414px) {
     .ol-zoomslider {
-        top : 4.0em !important;
+        top: 4.0em !important;
         left: .5em;
         height: 150px !important;
         background: rgba(0, 188, 212, 0.15) !important;

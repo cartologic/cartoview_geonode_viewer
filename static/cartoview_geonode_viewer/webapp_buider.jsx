@@ -37,6 +37,7 @@ import MapConfigTransformService from 'boundless-sdk/services/MapConfigTransform
 import MapConfigService from 'boundless-sdk/services/MapConfigService';
 import './app.css';
 import CartoviewDrawer from './cartoview_drawer';
+import FeatureTable from 'boundless-sdk/components/FeatureTable';
 
 injectTapEventPlugin();
 let printLayouts = [{
@@ -201,19 +202,19 @@ class CartoviewViewer extends React.Component {
                 })
             ) : "";
         const query_panel = appConfig.showQuery ? React.createElement("div", {
-                id: 'query-panel',
-                className: 'query-panel'
-            },
-            <QueryBuilder map={map}/>
-        ) : "";
+                    id: 'query-panel',
+                    className: 'query-panel'
+                },
+                <QueryBuilder map={map}/>
+            ) : "";
         const measure = appConfig.showMeasure ? React.createElement(Measure, {
-            toggleGroup: 'navigation',
-            map: map
-        }) : "";
+                toggleGroup: 'navigation',
+                map: map
+            }) : "";
 
         const edit_panel = appConfig.showEdit ? React.createElement("div", {id: 'edit-tool-panel'},
-            React.createElement(Edit, {map: map, toggleGroup: 'navigation'})
-        ) : "";
+                React.createElement(Edit, {map: map, toggleGroup: 'navigation'})
+            ) : "";
         const playback_panel = appConfig.showPlayback ?
             <div id="playback"><Playback map={map} minDate={appConfig.playback_config.minDate}
                                          maxDate={appConfig.playback_config.maxDate}
@@ -244,38 +245,38 @@ class CartoviewViewer extends React.Component {
 
         var charts = appConfig.showCharts ? appConfig.charts : [];
         const charts_panel = appConfig.showCharts ? React.createElement("div", {
-                id: 'chart-panel',
-                className: 'chart-panel'
-            },
-            React.createElement('div', {className: 'close'}, React.createElement("a", {
-                    href: '#',
-                    id: 'chart-panel-closer',
-                    className: 'chart-panel-closer',
-                    onClick: this._toggleChartPanel.bind(this)
+                    id: 'chart-panel',
+                    className: 'chart-panel'
                 },
-                "X"
-            ))
-            ,
-            <Chart ref='chartPanel' combo={true} charts={charts}/>
-        ) : "";
+                React.createElement('div', {className: 'close'}, React.createElement("a", {
+                        href: '#',
+                        id: 'chart-panel-closer',
+                        className: 'chart-panel-closer',
+                        onClick: this._toggleChartPanel.bind(this)
+                    },
+                    "X"
+                ))
+                ,
+                <Chart ref='chartPanel' combo={true} charts={charts}/>
+            ) : "";
 
         const geolocation = appConfig.showGeoLocation ? React.createElement("div", {id: 'geolocation-control'},
-            React.createElement(Geolocation, {map: map})
-        ) : "";
+                React.createElement(Geolocation, {map: map})
+            ) : "";
         const North = appConfig.showNorth ? React.createElement("div", {id: 'rotate-button'},
-            React.createElement(Rotate, {
-                autoHide: appConfig.north_config.autoHide,
-                map: map
-            })
-        ) : "";
+                React.createElement(Rotate, {
+                    autoHide: appConfig.north_config.autoHide,
+                    map: map
+                })
+            ) : "";
         const WFS_T_panel = appConfig.showWFS_T ? React.createElement("div", {id: 'wfst', ref: 'wfstPanel'},
-            React.createElement(WFST, {map: map})
-        ) : "";
+                React.createElement(WFST, {map: map})
+            ) : "";
         const geocode_search = appConfig.showGeoCoding ? <Geocoding maxResult={5}/> : "";
         const geocoding_results = appConfig.showGeoCoding ? React.createElement("div", {
-            id: 'geocoding-results',
-            className: 'geocoding-results-panel'
-        }, <GeocodingResults map={map}/>) : "";
+                id: 'geocoding-results',
+                className: 'geocoding-results-panel'
+            }, <GeocodingResults map={map}/>) : "";
         const menu_bar = React.createElement("div", {id: "menu_bar"},
             React.createElement("div", {style: {display: "flex"}}, React.createElement(CartoviewDrawer), geocode_search), geocoding_results
         );
@@ -285,6 +286,10 @@ class CartoviewViewer extends React.Component {
         if (appConfig.showEditPopup && appConfig.showInfoPopup) {
             info_popup = "";
         }
+        const table_panel = appConfig.showAttributesTable ?
+            <div ref='tablePanel' id='table-panel' className='attributes-table'><FeatureTable ref='table'
+                                                                                              map={map}/></div> : "";
+
         /* end controllers */
         return (
             <div id='content'>
@@ -311,6 +316,7 @@ class CartoviewViewer extends React.Component {
                 {charts_panel}
                 {edit_panel}
                 {playback_panel}
+                {table_panel}
                 <div id='popup' className='ol-popup'>
                     {info_popup}
                     {edit_popup}

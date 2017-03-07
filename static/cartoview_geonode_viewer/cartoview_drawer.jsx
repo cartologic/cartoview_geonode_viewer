@@ -6,7 +6,6 @@ import Select from 'boundless-sdk/components/Select';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Navigation from 'boundless-sdk/components/Navigation';
-import FeatureTable from 'boundless-sdk/components/FeatureTable';
 import AddLayer from './node_modules/boundless-sdk/components/AddLayer.js';
 import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
 import ImageExport from 'boundless-sdk/components/ImageExport';
@@ -103,9 +102,6 @@ export default class CartoviewDrawer extends React.Component {
                       onTouchTap={this._toggleChartPanel.bind(this)}
                       primaryText="Charts"
             /> : "";
-        const table_panel = appConfig.showAttributesTable ?
-            <div ref='tablePanel' id='table-panel' className='attributes-table'><FeatureTable ref='table'
-                                                                                              map={map}/></div> : "";
 
         const add_layer_modal = appConfig.showAddLayerModal ?
             <MenuItem leftIcon={<i className="material-icons">layers</i>}
@@ -153,7 +149,7 @@ export default class CartoviewDrawer extends React.Component {
                         {export_image}
                     </div>
                 </Drawer>
-                {table_panel}
+
                 {geoserver_modal}
             </div>
         );

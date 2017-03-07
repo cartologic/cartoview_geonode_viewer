@@ -1,5 +1,5 @@
 import React from 'react';
-import CartoviewViewer from './webapp_builder_layout_2';
+import CartoviewViewer from './webapp_buider';
 
 class CartoviewViewerDebug extends React.Component {
     constructor(props) {

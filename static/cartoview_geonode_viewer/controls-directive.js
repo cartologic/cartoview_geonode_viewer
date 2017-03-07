@@ -199,7 +199,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
             function ChartsDialogController($scope, $mdDialog, parent, $http) {
                 $scope.layers = layerNames;
                 var featureTypes_objects = [];
-                $http.get("/cartoview_proxy/http://localhost:4041/geoserver/wfs?service=WFS&request=DescribeFeatureType&outputFormat=application/json")
+                $http.get("/cartoview_proxy/geoserver/wfs?service=WFS&request=DescribeFeatureType&outputFormat=application/json")
                     .then(function (response) {
                         console.log(response.data.featureTypes);
                         featureTypes_objects = response.data.featureTypes;
