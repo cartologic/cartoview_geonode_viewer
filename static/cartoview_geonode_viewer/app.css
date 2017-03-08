@@ -26,7 +26,17 @@ html, body {
         box-sizing: border-box;
     }
 }
-
+.map-config{
+    margin-left: auto;
+    margin-right: auto;
+}
+.is-closed{
+  padding: 15px;
+}
+.Collapsible {
+  padding-bottom: 10px;
+    padding-top: 5px;
+  }
 /* end Dead Simple Grid */
 #map {
     width: 100%;

@@ -11,7 +11,12 @@ import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
 import ImageExport from 'boundless-sdk/components/ImageExport';
 import AppBar from 'material-ui/AppBar';
 import MapConfig from 'boundless-sdk/components/MapConfig';
-import CartoviewAbout from './cartoview_about'
+import CartoviewAbout from './cartoview_about';
+import FlatButton from 'material-ui/FlatButton';
+import Measure from 'boundless-sdk/components/Measure';
+import Collapsible from 'react-collapsible';
+import Divider from 'material-ui/Divider';
+import RaisedButton from 'material-ui/RaisedButton';
 export default class CartoviewDrawer extends React.Component {
 
     constructor(props) {
@@ -38,11 +43,6 @@ export default class CartoviewDrawer extends React.Component {
 
     }
 
-    _toggleAddLayerModal() {
-        this.refs.layerModal.getWrappedInstance().open();
-
-    }
-
     _toggleQuery() {
         this._toggle(document.getElementById('query-panel'));
     }
@@ -66,14 +66,17 @@ export default class CartoviewDrawer extends React.Component {
     render() {
         const about = appConfig.showAbout ? React.createElement(CartoviewAbout) : "";
         const export_image = appConfig.showExportImage ? React.createElement(ImageExport, {map: map}) : "";
-        const selection = appConfig.showSelection ? <Select toggleGroup='navigation' map={map}/> : "";
-        const navigation = appConfig.showSelection ?
-            <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/> : "";
+        const selection = <Select toggleGroup='navigation' map={map}/>;
+        const navigation = <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/>;
         const WFS_T = appConfig.showWFS_T ? <MenuItem leftIcon={<i className="material-icons">mode_edit</i>}
                                                       onTouchTap={this._toggleWFST.bind(this)}
                                                       primaryText="Edit Layer"
-        /> : "";
-        const add_layer = appConfig.showAddLayer ? React.createElement(AddLayer, {map: map}) : "";
+            /> : "";
+        const measure = appConfig.showMeasure ? React.createElement(Measure, {
+                toggleGroup: 'navigation',
+                map: map
+            }) : "";
+        const add_layer = appConfig.showAddLayer ? <AddLayer map={map} style={{marginLeft: '4em'}}/> : '';
         const AttributesTable = appConfig.showAttributesTable ?
             <MenuItem leftIcon={<i className="material-icons">grid_on</i>}
                       onTouchTap={this._toggleTable.bind(this)}
@@ -82,39 +85,43 @@ export default class CartoviewDrawer extends React.Component {
         const playback = appConfig.showPlayback ? <MenuItem leftIcon={<i className="material-icons">play_arrow</i>}
                                                             onTouchTap={this._togglePlayback.bind(this)}
                                                             primaryText="Playback"
-        /> : "";
+            /> : "";
         const hide = <MenuItem
             rightIcon={<i className="material-icons" onTouchTap={this._handleToggle.bind(this)}
                           style={{color: 'black'}}>close</i>}
             primaryText={title}
         />;
-        const edit = appConfig.showEdit ? <MenuItem leftIcon={<i className="material-icons">format_color_fill</i>}
-                                                    onTouchTap={this._toggleEdit.bind(this)}
-                                                    primaryText="Edit Graphics"
-        /> : "";
+        const edit = appConfig.showEdit ?
+            <RaisedButton
+                style={{paddingRight: 10, paddingLeft: 10, display: 'flex', paddingTop: 10, boxShadow: 'none'}}
+                className="HishamKaram" onTouchTap={this._toggleEdit.bind(this)} label="Create Layer"
+                primary={true}/> : "";
         const query = appConfig.showQuery ? <MenuItem leftIcon={<i className="material-icons">query_builder</i>}
                                                       onTouchTap={this._toggleQuery.bind(this)}
                                                       primaryText="Query"
-        /> : "";
-        const save_load_control = appConfig.showMapConfig ? <MapConfig map={map}/> : "";
+            /> : "";
+        const save_load_control = appConfig.showEdit ? <MapConfig map={map}/> : "";
         const chartsMenuItem = appConfig.showCharts ?
             <MenuItem leftIcon={<i className="material-icons">insert_chart</i>}
                       onTouchTap={this._toggleChartPanel.bind(this)}
                       primaryText="Charts"
             /> : "";
-
-        const add_layer_modal = appConfig.showAddLayerModal ?
-            <MenuItem leftIcon={<i className="material-icons">layers</i>}
-                      onTouchTap={this._toggleAddLayerModal.bind(this)}
-                      primaryText="Add Layers(Geoserver)"
-            /> : "";
-        const geoserver_modal = appConfig.showAddLayerModal ?
-            <div><AddLayerModal ref="layerModal" map={map} allowUserInput={true}
-                                sources={[{
-                                    url: '/cartoview_proxy/http://localhost:4041/geoserver/wms',
-                                    type: 'WMS',
-                                    title: 'Local GeoServer'
-                                }]}/></div> : "";
+        let select_navigate = '';
+        if (appConfig.showAttributesTable || appConfig.showCharts) {
+            select_navigate = <div style={{display: "flex"}}>
+                {selection}
+                {navigation}
+            </div>;
+        }
+        const collapsed_element = <span style={{padding: '15px !important', fontWeight: 'inherit !important'}}><i
+            className='material-icons'>format_color_fill</i>\<span style={{paddingLeft: 30}}>Graphics</span></span>
+        const collapsible_edit = appConfig.showEdit ? <span><Divider /><Collapsible trigger={collapsed_element}>
+              {edit}
+                <div style={{display: "flex"}}>
+                  {save_load_control}
+              </div>
+                {add_layer}
+          </Collapsible></span> : '';
 
         return (
 
@@ -127,30 +134,28 @@ export default class CartoviewDrawer extends React.Component {
                 </IconButton>
                 <Drawer width={280} open={this.state.open}>
                     <AppBar title={title}
-                            iconElementLeft={<IconButton><i className="material-icons">map</i></IconButton>}
+                            showMenuIconButton={false}
                             style={{height: 71}}
                             iconElementRight={<IconButton onTouchTap={this._handleToggle.bind(this)}><NavigationClose /></IconButton>}/>
-                    {add_layer_modal}
+                    {select_navigate}
+                    <Divider />
+                    <div style={{display: "flex", paddingBottom: 20}}>
+                        {measure}
+                        {export_image}
+                    </div>
+
+                    {collapsible_edit}
+
+                    <Divider />
                     {WFS_T}
                     {AttributesTable}
                     {playback}
                     {chartsMenuItem}
-                    {edit}
                     {query}
                     {about}
-                    <div style={{display: "flex"}}>
-                        {selection}
-                        {navigation}
-                    </div>
 
-                    {save_load_control}
-                    <div style={{display: "flex"}}>
-                        {add_layer}
-                        {export_image}
-                    </div>
                 </Drawer>
 
-                {geoserver_modal}
             </div>
         );
     }

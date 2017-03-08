@@ -30,7 +30,7 @@ export default class CartoviewAbout extends React.Component {
             <div>
                 <MenuItem leftIcon={<i className="material-icons">info_outline</i>}
                           onTouchTap={this._handleOpen.bind(this)}
-                          primaryText="Show About Dialog"
+                          primaryText="About Dialog"
                 />
                 <Dialog
                     title={title}

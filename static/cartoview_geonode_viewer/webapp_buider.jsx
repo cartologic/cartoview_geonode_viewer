@@ -7,6 +7,8 @@ import './map'
 import {IntlProvider} from 'react-intl';
 global.IntlProvider = IntlProvider;
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -74,7 +76,8 @@ class CartoviewViewer extends React.Component {
         super(props);
         this.state = {
             errors: [],
-            errorOpen: false
+            errorOpen: false,
+            addLayerModalOpen: false
         };
     }
 
@@ -94,12 +97,17 @@ class CartoviewViewer extends React.Component {
 
     updateMap(props) {
         if (props.config) {
+            var tileServices = [];
             var errors = [];
             var filteredErrors = [];
-            MapConfigService.load(MapConfigTransformService.transform(props.config, props.proxy, errors), map);
+            if (props.zoomToLayer && props.config.map.layers[props.config.map.layers.length - 1].bbox) {
+                this._extent = props.config.map.layers[props.config.map.layers.length - 1].bbox;
+            }
+            MapConfigService.load(MapConfigTransformService.transform(props.config, errors, tileServices), map, this.props.proxy);
             for (var i = 0, ii = errors.length; i < ii; ++i) {
                 // ignore the empty baselayer since we have checkbox now for base layer group
-                if (errors[i].layer.type !== 'OpenLayers.Layer') {
+                // ignore the empty layer from the local source
+                if (errors[i].layer.type !== 'OpenLayers.Layer' && errors[i].msg !== 'Unable to load layer undefined') {
                     if (window.console && window.console.warn) {
                         window.console.warn(errors[i]);
                     }
@@ -108,15 +116,42 @@ class CartoviewViewer extends React.Component {
             }
             this.setState({
                 errors: filteredErrors,
-                errorOpen: true
+                errorOpen: true,
+                tileServices: tileServices
             });
         }
     }
 
+    // updateMap(props) {
+    //     if (props.config) {
+    //         var errors = [];
+    //         var filteredErrors = [];
+    //         MapConfigService.load(MapConfigTransformService.transform(props.config, props.proxy, errors), map);
+    //         for (var i = 0, ii = errors.length; i < ii; ++i) {
+    //             // ignore the empty baselayer since we have checkbox now for base layer group
+    //             if (errors[i].layer.type !== 'OpenLayers.Layer') {
+    //                 if (window.console && window.console.warn) {
+    //                     window.console.warn(errors[i]);
+    //                 }
+    //                 filteredErrors.push(errors[i]);
+    //             }
+    //         }
+    //         this.setState({
+    //             errors: filteredErrors,
+    //             errorOpen: true
+    //         });
+    //     }
+    // }
 
     _handleRequestClose() {
         this.setState({
             errorOpen: false
+        });
+    }
+
+    _handleRequestCloseModal() {
+        this.setState({
+            addLayerModalOpen: false
         });
     }
 
@@ -157,6 +192,10 @@ class CartoviewViewer extends React.Component {
 
     _toggleAboutPanel() {
         this._toggle(document.getElementById('about-panel'));
+    }
+
+    _toggleAddLayerModal() {
+        this.setState({addLayerModalOpen: true})
     }
 
     _toggleChartPanel(evt) {
@@ -223,6 +262,8 @@ class CartoviewViewer extends React.Component {
                                          autoPlay={appConfig.playback_config.autoPlay}
                                          className={"playback"}/></div> : "";
         const load = appConfig.showLoadingPanel ? React.createElement(LoadingPanel, {map: map}) : "";
+
+        var charts = appConfig.showCharts ? appConfig.charts : [];
         if (appConfig.showCharts) {
             map.once('postrender', function (event) {
                 for (var i = 0; i < map.getLayers().getArray().length; i++) {
@@ -233,17 +274,26 @@ class CartoviewViewer extends React.Component {
 
                     }
                 }
+                for (var i = 0; i < appConfig.charts.length; i++) {
+                    appConfig.charts[i].displayMode = parseInt(appConfig.charts[i].displayMode);
+                    appConfig.charts[i].operation = parseInt(appConfig.charts[i].operation);
+                }
             });
-
-            for (var i = 0; i < appConfig.charts.length; i++) {
-
-                appConfig.charts[i].displayMode = parseInt(appConfig.charts[i].displayMode);
-                appConfig.charts[i].operation = parseInt(appConfig.charts[i].operation);
-            }
         }
-
-
-        var charts = appConfig.showCharts ? appConfig.charts : [];
+        const add_layer_modal = appConfig.showAddLayerModal ?
+            <FloatingActionButton className="Hisham" onTouchTap={(e) => this._toggleAddLayerModal(this)}
+                                  style={{position: 'absolute', zIndex: 211, right: 20, top: 430}} mini={true}>
+                <ContentAdd />
+            </FloatingActionButton> : "";
+        const geoserver_modal = appConfig.showAddLayerModal ?
+            <div><AddLayerModal open={this.state.addLayerModalOpen}
+                                onRequestClose={this._handleRequestCloseModal.bind(this)} map={map}
+                                srsName={map.getView().getProjection().getCode()} allowUserInput={true}
+                                sources={[{
+                                    url: '/geoserver/wms',
+                                    type: 'WMS',
+                                    title: 'your GeoServer'
+                                }]}/></div> : "";
         const charts_panel = appConfig.showCharts ? React.createElement("div", {
                     id: 'chart-panel',
                     className: 'chart-panel'
@@ -272,7 +322,7 @@ class CartoviewViewer extends React.Component {
         const WFS_T_panel = appConfig.showWFS_T ? React.createElement("div", {id: 'wfst', ref: 'wfstPanel'},
                 React.createElement(WFST, {map: map})
             ) : "";
-        const geocode_search = appConfig.showGeoCoding ? <Geocoding maxResult={5}/> : "";
+        const geocode_search = <Geocoding maxResult={5}/>;
         const geocoding_results = appConfig.showGeoCoding ? React.createElement("div", {
                 id: 'geocoding-results',
                 className: 'geocoding-results-panel'
@@ -289,19 +339,12 @@ class CartoviewViewer extends React.Component {
         const table_panel = appConfig.showAttributesTable ?
             <div ref='tablePanel' id='table-panel' className='attributes-table'><FeatureTable ref='table'
                                                                                               map={map}/></div> : "";
-
         /* end controllers */
         return (
             <div id='content'>
-                <AddLayerModal map={map} allowUserInput={true}
-                               sources={[{
-                                   url: '/geoserver/wms',
-                                   type: 'WMS',
-                                   title: 'Local GeoServer'
-                               }]}/>
                 {error}
                 {menu_bar}
-
+                {add_layer_modal}
                 <MapPanel useHistory={true} id='map' map={map}/>
                 {globe}
                 {print}
@@ -317,6 +360,7 @@ class CartoviewViewer extends React.Component {
                 {edit_panel}
                 {playback_panel}
                 {table_panel}
+                {geoserver_modal}
                 <div id='popup' className='ol-popup'>
                     {info_popup}
                     {edit_popup}

@@ -25,7 +25,7 @@ module.exports = {
         publicPath: "/static/cartoview_geonode_viewer/dist/"
     },
     node: {fs: "empty"},
-    plugins: [new webpack.optimize.UglifyJsPlugin({compress: {warnings: true}})],
+    plugins: [],
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
@@ -49,3 +49,5 @@ module.exports = {
         noParse: [/dist\/ol\.js/, /dist\/jspdf.debug\.js/]
     }
 };
+// new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('production')}}),
+// new webpack.optimize.UglifyJsPlugin({compress: {warnings: true}})
