@@ -323,10 +323,10 @@ class CartoviewViewer extends React.Component {
                 React.createElement(WFST, {map: map})
             ) : "";
         const geocode_search = <Geocoding maxResult={5}/>;
-        const geocoding_results = appConfig.showGeoCoding ? React.createElement("div", {
+        const geocoding_results =  React.createElement("div", {
                 id: 'geocoding-results',
                 className: 'geocoding-results-panel'
-            }, <GeocodingResults map={map}/>) : "";
+            }, <GeocodingResults map={map}/>);
         const menu_bar = React.createElement("div", {id: "menu_bar"},
             React.createElement("div", {style: {display: "flex"}}, React.createElement(CartoviewDrawer), geocode_search), geocoding_results
         );
