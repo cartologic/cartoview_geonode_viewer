@@ -29,21 +29,24 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
             var layersDict = {};
             var layerNames = [];
             $scope.mapLayers = [];
-            angular.forEach(dataService.selected.map.map_layers, function (layer) {
-                if (!layer.fixed) {
-                    layer.params = JSON.parse(layer.layer_params);
-                    layerNames.push(layer.name);
-                    layersDict[layer.name.split(':')[1]] = layer;
-                    var layerInfo = {
-                        name: layer.name,
-                        title: layer.params.title
-                    };
-                    $scope.mapLayers.push(layerInfo);
-                }
-            });
-
-            console.log(layersDict['historic_pnt']);
-            console.log(layerNames);
+            if (dataService.selected.map) {
+                angular.forEach(dataService.selected.map.map_layers, function (layer) {
+                    if (!layer.fixed) {
+                        layer.params = JSON.parse(layer.layer_params);
+                        layerNames.push(layer.name);
+                        layersDict[layer.name.split(':')[1]] = layer;
+                        var layerInfo = {
+                            name: layer.name,
+                            title: layer.params.title
+                        };
+                        $scope.mapLayers.push(layerInfo);
+                    }
+                });
+            }
+            //
+            //
+            // console.log(layersDict['historic_pnt']);
+            // console.log(layerNames);
             $scope.openDialog = function ($event) {
                 $mdDialog.show({
                     controller: ScaleDialogController,
@@ -190,7 +193,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                         parent: $scope
                     }
                 }).then(function (answer) {
-                    console.log(answer)
+                    // console.log(answer);
                     $scope.instanceObj.config.charts = answer;
                 }, function () {
                     console.log("Canceled")
@@ -201,7 +204,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 var featureTypes_objects = [];
                 $http.get("/cartoview_proxy/geoserver/wfs?service=WFS&request=DescribeFeatureType&outputFormat=application/json")
                     .then(function (response) {
-                        console.log(response.data.featureTypes);
+                        // console.log(response.data.featureTypes);
                         featureTypes_objects = response.data.featureTypes;
                     });
                 $scope.layer_nameChanged = function () {
@@ -223,7 +226,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 };
                 $scope.selectedvalues = [];
                 $scope.ValueFieldsChanged = function () {
-                    console.log($scope)
+                    // console.log($scope)
                 };
                 $scope.charts = [];
                 $scope.add = function () {
