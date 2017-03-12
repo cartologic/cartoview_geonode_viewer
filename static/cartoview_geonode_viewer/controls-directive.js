@@ -27,6 +27,22 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 zoomOutTipLabel: "Zoom Out"
             };
             var layersDict = {};
+            var layerNames = [];
+            $scope.mapLayers = [];
+            if (dataService.selected.map) {
+                angular.forEach(dataService.selected.map.map_layers, function (layer) {
+                    if (!layer.fixed) {
+                        layer.params = JSON.parse(layer.layer_params);
+                        layerNames.push(layer.name);
+                        layersDict[layer.name.split(':')[1]] = layer;
+                        var layerInfo = {
+                            name: layer.name,
+                            title: layer.params.title
+                        };
+                        $scope.mapLayers.push(layerInfo);
+                    }
+                });
+            }
             //
             //
             // console.log(layersDict['historic_pnt']);
@@ -184,26 +200,9 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 });
             };
             function ChartsDialogController($scope, $mdDialog, parent, $http) {
-                var layerNames = [];
-                $scope.mapLayers = [];
-                if (dataService.selected.map) {
-                    angular.forEach(dataService.selected.map.map_layers, function (layer) {
-                        if (!layer.fixed) {
-                            layer.params = JSON.parse(layer.layer_params);
-                            layerNames.push(layer.name);
-                            layersDict[layer.name.split(':')[1]] = layer;
-                            var layerInfo = {
-                                name: layer.name,
-                                title: layer.params.title
-                            };
-                            $scope.mapLayers.push(layerInfo);
-                        }
-                    });
-                }
                 $scope.layers = layerNames;
-                console.log(layerNames)
                 var featureTypes_objects = [];
-                $http.get("/geoserver/wfs?service=WFS&request=DescribeFeatureType&outputFormat=application/json")
+                $http.get("/cartoview_proxy/geoserver/wfs?service=WFS&request=DescribeFeatureType&outputFormat=application/json")
                     .then(function (response) {
                         // console.log(response.data.featureTypes);
                         featureTypes_objects = response.data.featureTypes;
