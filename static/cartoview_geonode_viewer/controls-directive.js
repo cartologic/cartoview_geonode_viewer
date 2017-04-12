@@ -9,6 +9,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
         templateUrl: urlsHelper.static + "cartoview_geonode_viewer/angular-templates/basic-controls.html",
         controller: function ($scope, dataService, $mdMedia, $mdDialog) {
             $scope.instanceObj = dataService.instanceObj;
+            console.log($scope.instanceObj);
             $scope.selected = dataService.selected;
             $scope.instanceObj.config.playback_config = {
                 maxDate: 1385938800000,
@@ -27,10 +28,6 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 zoomOutTipLabel: "Zoom Out"
             };
             var layersDict = {};
-            //
-            //
-            // console.log(layersDict['historic_pnt']);
-            // console.log(layerNames);
             $scope.openDialog = function ($event) {
                 $mdDialog.show({
                     controller: ScaleDialogController,
@@ -174,7 +171,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                     targetEvent: $event,
                     clickOutsideToClose: true,
                     locals: {
-                        parent: $scope
+                        parentscope: $scope
                     }
                 }).then(function (answer) {
                     // console.log(answer);
@@ -183,7 +180,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                     console.log("Canceled")
                 });
             };
-            function ChartsDialogController($scope, $mdDialog, parent, $http) {
+            function ChartsDialogController($scope, $mdDialog, parentscope, $http) {
                 var layerNames = [];
                 $scope.mapLayers = [];
                 if (dataService.selected.map) {
@@ -202,7 +199,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 }
                 $scope.layers = layerNames;
                 var featureTypes_objects = [];
-                $http.get("/geoserver/wfs?service=WFS&request=DescribeFeatureType&outputFormat=application/json")
+                $http.get(geoserver_url+"wfs?service=WFS&request=DescribeFeatureType&outputFormat=application/json")
                     .then(function (response) {
                         // console.log(response.data.featureTypes);
                         featureTypes_objects = response.data.featureTypes;
@@ -228,7 +225,8 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 $scope.ValueFieldsChanged = function () {
                     // console.log($scope)
                 };
-                $scope.charts = [];
+                console.log("asdsa",parentscope);
+                $scope.charts = parentscope.instanceObj.config.charts || [];
                 $scope.add = function () {
                     $scope.charts.push({
                         title: $scope.title,

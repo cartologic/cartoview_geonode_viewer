@@ -122,26 +122,6 @@ class CartoviewViewer extends React.Component {
         }
     }
 
-    // updateMap(props) {
-    //     if (props.config) {
-    //         var errors = [];
-    //         var filteredErrors = [];
-    //         MapConfigService.load(MapConfigTransformService.transform(props.config, props.proxy, errors), map);
-    //         for (var i = 0, ii = errors.length; i < ii; ++i) {
-    //             // ignore the empty baselayer since we have checkbox now for base layer group
-    //             if (errors[i].layer.type !== 'OpenLayers.Layer') {
-    //                 if (window.console && window.console.warn) {
-    //                     window.console.warn(errors[i]);
-    //                 }
-    //                 filteredErrors.push(errors[i]);
-    //             }
-    //         }
-    //         this.setState({
-    //             errors: filteredErrors,
-    //             errorOpen: true
-    //         });
-    //     }
-    // }
 
     _handleRequestClose() {
         this.setState({
@@ -227,8 +207,8 @@ class CartoviewViewer extends React.Component {
         const homeBtn = appConfig.showHome ?
             <div id='home-button'><HomeButton tooltipPosition='left' map={map}/></div> : '';
         const layerSwitcher = appConfig.showLayerSwitcher ?
-            <LayerList allowFiltering={true} showOpacity={true} showDownload={true} showGroupContent={true}
-                       showZoomTo={true} allowReordering={true} includeLegend={appConfig.showLegend}
+        <LayerList allowFiltering={true} showOpacity={true} allowStyling={true} downloadFormat={'GPX'} showDownload={true} allowRemove={false} showGroupContent={true}
+                       showZoomTo={true} allowLabeling={true} allowEditing={true} allowReordering={true} showTable={true} handleResolutionChange={true} includeLegend={appConfig.showLegend}
                        map={map}/> : '';
         const zoomControls = appConfig.showZoomControls ?
             React.createElement("div", {id: 'zoom-buttons'},
@@ -281,8 +261,7 @@ class CartoviewViewer extends React.Component {
             });
         }
         const add_layer_modal = appConfig.showAddLayerModal ?
-            <FloatingActionButton className="Hisham" onTouchTap={(e) => this._toggleAddLayerModal(this)}
-                                  style={{position: 'absolute', zIndex: 211, right: 20, top: 430}} mini={true}>
+            <FloatingActionButton className="Addmodal" onTouchTap={(e) => this._toggleAddLayerModal(this)} mini={true}>
                 <ContentAdd />
             </FloatingActionButton> : "";
         const geoserver_modal = appConfig.showAddLayerModal ?
@@ -290,7 +269,7 @@ class CartoviewViewer extends React.Component {
                                 onRequestClose={this._handleRequestCloseModal.bind(this)} map={map}
                                 srsName={map.getView().getProjection().getCode()} allowUserInput={true}
                                 sources={[{
-                                    url: '/geoserver/wms',
+                                    url: geoserver_url+'wms',
                                     type: 'WMS',
                                     title: 'your GeoServer'
                                 }]}/></div> : "";
@@ -336,9 +315,7 @@ class CartoviewViewer extends React.Component {
         if (appConfig.showEditPopup && appConfig.showInfoPopup) {
             info_popup = "";
         }
-        const table_panel = appConfig.showAttributesTable ?
-            <div ref='tablePanel' id='table-panel' className='attributes-table'><FeatureTable ref='table'
-                                                                                              map={map}/></div> : "";
+
         /* end controllers */
         return (
             <div id='content'>
@@ -359,7 +336,6 @@ class CartoviewViewer extends React.Component {
                 {charts_panel}
                 {edit_panel}
                 {playback_panel}
-                {table_panel}
                 {geoserver_modal}
                 <div id='popup' className='ol-popup'>
                     {info_popup}

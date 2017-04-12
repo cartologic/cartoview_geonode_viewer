@@ -52,6 +52,9 @@
             src="{{ STATIC_URL }}cartoview_map_viewer/js/edit/basic-config-directive.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview_geonode_viewer/actions-bar-directive.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview_geonode_viewer/controls-directive.js"></script>
+    <script>
+    var geoserver_url="{{ GEOSERVER_BASE_URL }}";
+    </script>
 {% endblock %}
 {% block body_directives %}ng-app="cartoview.viewer.editor"{% endblock %}
 {% block body %}

@@ -27,16 +27,16 @@ html, body {
     }
 }
 .map-config{
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative !important;
+  display: inline-grid !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  grid-gap: 10px !important;
+  margin-top: 10px;
+margin-bottom: 10px;
 }
-.is-closed{
-  padding: 15px;
-}
-.Collapsible {
-  padding-bottom: 10px;
-    padding-top: 5px;
-  }
 /* end Dead Simple Grid */
 #map {
     width: 100%;
@@ -153,12 +153,12 @@ html, body {
 
 .attributes-table {
     display: none;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     left: 0;
     height: 50%;
     width: 100%;
-    /*z-index: 101;*/
+    z-index: 1;
 }
 
 .layerselect {
@@ -299,9 +299,14 @@ html, body {
 }
 
 .layer-switcher {
-    top: 20px !important;
+  position: absolute;
+  top: 20px !important;
+  left: auto;
+  right: 20px;
 }
-
+.feature-table{
+  padding: 10px !important;
+}
 #zoom-slider {
     position: absolute;
     width: 200px;
@@ -317,6 +322,12 @@ html, body {
     right: 100px;
     position: absolute;
 
+}
+.Addmodal{
+  position: fixed;
+  z-index:1;
+  right: 20px;
+  top: 430px;
 }
 
 #geocoding {
@@ -375,13 +386,13 @@ html, body {
 }
 
 .select {
-    margin-right: 10px;
-    width: 120px;
+    /*margin-right: 10px;
+    width: 120px;*/
 
 }
 
 .navigation {
-    margin: auto;;
+    /*margin: auto;*/
 }
 
 .geocoding {
@@ -489,6 +500,12 @@ html, body {
         border-width: thin;
         border-color: rgba(141, 141, 179, 0.76);
     }
+    .Addmodal {
+    position: fixed;
+    z-index: 1;
+    right: 20px;
+    top: 230px;
+}
 
     #globe-button {
         right: 70px !important;
