@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "build": "webpack -d --progress --color --config custom_config.js",
-    "devel": "webpack --watch -d --progress --color --config custom_config.js",
+    "build": "webpack -d --progress --color",
+    "devel": "webpack --watch -d --progress --color --config webpack.devel.config.js",
     "dist:build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
