@@ -8,6 +8,7 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Navigation from 'boundless-sdk/components/Navigation';
 import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
 import BaseMapSelector from 'boundless-sdk/components/BaseMapSelector';
+import Bookmarks from 'boundless-sdk/components/Bookmarks';
 import ImageExport from 'boundless-sdk/components/ImageExport';
 import AppBar from 'material-ui/AppBar';
 import MapConfig from 'boundless-sdk/components/MapConfig';
@@ -121,7 +122,6 @@ export default class CartoviewDrawer extends React.Component {
               <div>{export_image}</div>
           </div>} leftIcon={<i className='material-icons'>collections</i>} elementText="Export-Measure "/>: "";
           const BaseMap_Selector=appConfig.showBaseMapSelector ? <CollapsibleMenuItem content={<div style={{padding: 10,display: 'grid'}}><BaseMapSelector map={map} /></div>} leftIcon={<i className='material-icons'>map</i>} elementText="Base Map Selector"/>:"";
-
         return (
 
             <div>
