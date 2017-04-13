@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Navigation from 'boundless-sdk/components/Navigation';
 import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
+import BaseMapSelector from 'boundless-sdk/components/BaseMapSelector';
 import ImageExport from 'boundless-sdk/components/ImageExport';
 import AppBar from 'material-ui/AppBar';
 import MapConfig from 'boundless-sdk/components/MapConfig';
@@ -73,11 +74,11 @@ export default class CartoviewDrawer extends React.Component {
                                                       onTouchTap={this._toggleWFST.bind(this)}
                                                       primaryText="Edit Layer"
             /> : "";
+
         const measure = appConfig.showMeasure ? React.createElement(Measure, {
                 toggleGroup: 'navigation',
                 map: map
             }) : "";
-        // const add_layer = appConfig.showAddLayer ? <AddLayer map={map} style={{marginLeft: '4em'}}/> : '';
         const AttributesTable = appConfig.showAttributesTable ?
             <MenuItem leftIcon={<i className="material-icons">grid_on</i>}
                       onTouchTap={this._toggleTable.bind(this)}
@@ -119,6 +120,7 @@ export default class CartoviewDrawer extends React.Component {
               <div>{measure}</div>
               <div>{export_image}</div>
           </div>} leftIcon={<i className='material-icons'>collections</i>} elementText="Export-Measure "/>: "";
+          const BaseMap_Selector=appConfig.showBaseMapSelector ? <CollapsibleMenuItem content={<div style={{padding: 10,display: 'grid'}}><BaseMapSelector map={map} /></div>} leftIcon={<i className='material-icons'>map</i>} elementText="Base Map Selector"/>:"";
 
         return (
 
@@ -134,7 +136,8 @@ export default class CartoviewDrawer extends React.Component {
                             showMenuIconButton={false}
                             style={{height: 71}}
                             iconElementRight={<IconButton onTouchTap={this._handleToggle.bind(this)}><NavigationClose /></IconButton>}/>
-                    {select_navigate}
+                          {BaseMap_Selector}
+                  {select_navigate}
                     {measure_export}
                     {collapsible_edit}
                     <Divider/>

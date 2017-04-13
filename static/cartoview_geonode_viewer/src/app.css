@@ -12,7 +12,10 @@ html, body {
 .col {
     padding: 0 0em;
 }
-
+.basemapselector{
+  margin-left: auto;
+    margin-right: auto;
+}
 .row:after {
     content: "";
     clear: both;
