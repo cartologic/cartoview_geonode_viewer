@@ -2,45 +2,52 @@ import React from 'react';
 global.React = React;
 import ReactDOM from 'react-dom';
 global.ReactDOM = ReactDOM;
-import ol from '../node_modules/boundless-sdk/node_modules/openlayers';
+import ol from '../node_modules/@boundlessgeo/sdk/node_modules/openlayers';
 import './map'
 import {IntlProvider} from 'react-intl';
 global.IntlProvider = IntlProvider;
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import CustomTheme from './theme';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import MapConfig from '@boundlessgeo/sdk/components/MapConfig';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Geocoding from 'boundless-sdk/components/Geocoding';
-import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
-import Bookmarks from 'boundless-sdk/components/Bookmarks';
-import Chart from 'boundless-sdk/components/Chart';
-import Edit from 'boundless-sdk/components/Edit';
-import EditPopup from 'boundless-sdk/components/EditPopup';
-import GeocodingResults from 'boundless-sdk/components/GeocodingResults';
-import Geolocation from 'boundless-sdk/components/Geolocation';
-import Globe from 'boundless-sdk/components/Globe';
-import HomeButton from 'boundless-sdk/components/HomeButton';
-import InfoPopup from 'boundless-sdk/components/InfoPopup';
-import LayerList from 'boundless-sdk/components/LayerList';
-import LoadingPanel from 'boundless-sdk/components/LoadingPanel';
-import MapPanel from 'boundless-sdk/components/MapPanel';
-import Measure from 'boundless-sdk/components/Measure';
-import Playback from 'boundless-sdk/components/Playback';
-import QGISPrint from 'boundless-sdk/components/QGISPrint';
-import QueryBuilder from 'boundless-sdk/components/QueryBuilder';
-import Rotate from 'boundless-sdk/components/Rotate';
-import ToolActions from 'boundless-sdk/actions/ToolActions';
-import WFST from 'boundless-sdk/components/WFST';
-import Zoom from 'boundless-sdk/components/Zoom';
-import 'boundless-sdk/dist/css/components.css';
-import MapConfigTransformService from 'boundless-sdk/services/MapConfigTransformService';
-import MapConfigService from 'boundless-sdk/services/MapConfigService';
+import ImageExport from '@boundlessgeo/sdk/components/ImageExport';
+import Geocoding from '@boundlessgeo/sdk/components/Geocoding';
+import AddLayerModal from '@boundlessgeo/sdk/components/AddLayerModal';
+import CartoviewAbout from './cartoview_about';
+import Bookmarks from '@boundlessgeo/sdk/components/Bookmarks';
+import Chart from '@boundlessgeo/sdk/components/Chart';
+import EditPopup from '@boundlessgeo/sdk/components/EditPopup';
+import GeocodingResults from '@boundlessgeo/sdk/components/GeocodingResults';
+import Geolocation from '@boundlessgeo/sdk/components/Geolocation';
+import Globe from '@boundlessgeo/sdk/components/Globe';
+import HomeButton from '@boundlessgeo/sdk/components/HomeButton';
+import InfoPopup from '@boundlessgeo/sdk/components/InfoPopup';
+import LayerList from '@boundlessgeo/sdk/components/LayerList';
+import LoadingPanel from '@boundlessgeo/sdk/components/LoadingPanel';
+import MapPanel from '@boundlessgeo/sdk/components/MapPanel';
+import Measure from '@boundlessgeo/sdk/components/Measure';
+import Playback from '@boundlessgeo/sdk/components/Playback';
+import QGISPrint from '@boundlessgeo/sdk/components/QGISPrint';
+import QueryBuilder from '@boundlessgeo/sdk/components/QueryBuilder';
+import Rotate from '@boundlessgeo/sdk/components/Rotate';
+import ToolActions from '@boundlessgeo/sdk/actions/ToolActions';
+import DrawFeature from '@boundlessgeo/sdk/components/DrawFeature';
+import Zoom from '@boundlessgeo/sdk/components/Zoom';
+import '@boundlessgeo/sdk/dist/css/components.css';
+import IconButton from 'material-ui/IconButton';
+import MapConfigTransformService from '@boundlessgeo/sdk/services/MapConfigTransformService';
+import MapConfigService from '@boundlessgeo/sdk/services/MapConfigService';
 import './app.css';
-import CartoviewDrawer from './cartoview_drawer';
-import FeatureTable from 'boundless-sdk/components/FeatureTable';
-
+import Select from '@boundlessgeo/sdk/components/Select';
+import Navigation from '@boundlessgeo/sdk/components/Navigation';
+// import CartoviewDrawer from './cartoview_drawer';
+import FeatureTable from '@boundlessgeo/sdk/components/FeatureTable';
+import Header from '@boundlessgeo/sdk/components/Header';
+import {lightBlue600} from 'material-ui/styles/colors'
 injectTapEventPlugin();
 let printLayouts = [{
     name: 'Layout 1',
@@ -87,7 +94,7 @@ class CartoviewViewer extends React.Component {
 
     getChildContext() {
         return {
-            muiTheme: getMuiTheme()
+            muiTheme: getMuiTheme(CustomTheme)
         };
     }
 
@@ -156,9 +163,9 @@ class CartoviewViewer extends React.Component {
                 "units": appConfig.scalebar_config.units
             }))
         }
-        if (appConfig.showZoomSlider) {
-            map.addControl(new ol.control.ZoomSlider());
-        }
+        // if (appConfig.showZoomSlider) {
+        //     map.addControl(new ol.control.ZoomSlider());
+        // }
     }
 
     _toggle(el) {
@@ -205,7 +212,7 @@ class CartoviewViewer extends React.Component {
         const print = appConfig.showPrint ?
             <div id='print-button'><QGISPrint menu={false} map={map} layouts={printLayouts}/></div> : '';
         const homeBtn = appConfig.showHome ?
-            <div id='home-button'><HomeButton tooltipPosition='left' map={map}/></div> : '';
+            <div id='home-button'><HomeButton tooltipPosition='left' map={map} /></div> : '';
         const layerSwitcher = appConfig.showLayerSwitcher ?
         <LayerList allowFiltering={true} showOpacity={true} allowStyling={true} downloadFormat={'GPX'} showDownload={true} allowRemove={false} showGroupContent={true}
                        showZoomTo={true} allowLabeling={true} allowEditing={true} allowReordering={true} showTable={true} handleResolutionChange={true} includeLegend={appConfig.showLegend}
@@ -231,11 +238,8 @@ class CartoviewViewer extends React.Component {
                 map: map
             }) : "";
 
-        const edit_panel = appConfig.showEdit ? React.createElement("div", {id: 'edit-tool-panel'},
-                React.createElement(Edit, {map: map, toggleGroup: 'navigation'})
-            ) : "";
         const playback_panel = appConfig.showPlayback ?
-            <div id="playback"><Playback map={map} minDate={appConfig.playback_config.minDate}
+            <div id='timeline'><Playback map={map} minDate={appConfig.playback_config.minDate}
                                          maxDate={appConfig.playback_config.maxDate}
                                          interval={appConfig.playback_config.interval}
                                          numIntervals={appConfig.playback_config.numIntervals}
@@ -264,6 +268,11 @@ class CartoviewViewer extends React.Component {
             <FloatingActionButton className="Addmodal" onTouchTap={(e) => this._toggleAddLayerModal(this)} mini={true}>
                 <ContentAdd />
             </FloatingActionButton> : "";
+            const charts_button = appConfig.showCharts ?
+                <FloatingActionButton className="Addmodal" onTouchTap={(e) => this._toggleChartPanel(this)} mini={true}>
+                  <i className="material-icons">insert_chart</i>
+
+                </FloatingActionButton> : "";
         const geoserver_modal = appConfig.showAddLayerModal ?
             <div><AddLayerModal open={this.state.addLayerModalOpen}
                                 onRequestClose={this._handleRequestCloseModal.bind(this)} map={map}
@@ -298,17 +307,31 @@ class CartoviewViewer extends React.Component {
                     map: map
                 })
             ) : "";
-        const WFS_T_panel = appConfig.showWFS_T ? React.createElement("div", {id: 'wfst', ref: 'wfstPanel'},
-                React.createElement(WFST, {map: map})
-            ) : "";
+        const WFST = appConfig.showWFS_T ? <DrawFeature map={map}></DrawFeature> : "";
+
         const geocode_search = <Geocoding maxResult={5}/>;
         const geocoding_results =  React.createElement("div", {
                 id: 'geocoding-results',
                 className: 'geocoding-results-panel'
             }, <GeocodingResults map={map}/>);
-        const menu_bar = React.createElement("div", {id: "menu_bar"},
-            React.createElement("div", {style: {display: "flex"}}, React.createElement(CartoviewDrawer), geocode_search), geocoding_results
-        );
+        // const menu_bar = React.createElement("div", {id: "menu_bar"},
+        //     React.createElement("div", {style: {display: "flex"}}, React.createElement(CartoviewDrawer), geocode_search), geocoding_results
+        // );
+        let measure_tool= appConfig.showMeasure ? <Measure toggleGroup='navigation' map={map}/> : "";
+        const save_load_control = appConfig.showmapconfig ? <MapConfig map={map} /> : "";
+        const export_image = appConfig.showExportImage ? React.createElement(ImageExport, {map: map}) : "";
+        const about = appConfig.showAbout ? <CartoviewAbout/> : "";
+        const selection = appConfig.showAttributesTable || appConfig.showCharts ? <Select toggleGroup='navigation' map={map}/> : "" ;
+        const navigation =appConfig.showAttributesTable || appConfig.showCharts ? <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/> :"";
+        const app_toolbar=<Header iconElementLeft={about}>
+          {save_load_control}
+            {export_image}
+            {WFST}
+            {measure_tool}
+            {selection}
+            {navigation}
+          </Header>;
+
         let info_popup = appConfig.showInfoPopup ? <InfoPopup toggleGroup='navigation' toolId='nav'
                                                               infoFormat='application/vnd.ogc.gml' map={map}/> : "";
         let edit_popup = appConfig.showEditPopup ? <EditPopup map={map}/> : "";
@@ -320,8 +343,9 @@ class CartoviewViewer extends React.Component {
         return (
             <div id='content'>
                 {error}
-                {menu_bar}
+                {app_toolbar}
                 {add_layer_modal}
+                {charts_button}
                 <MapPanel useHistory={true} id='map' map={map}/>
                 {globe}
                 {print}
@@ -331,10 +355,8 @@ class CartoviewViewer extends React.Component {
                 {zoomControls}
                 {load}
                 {query_panel}
-                {WFS_T_panel}
                 {North}
                 {charts_panel}
-                {edit_panel}
                 {playback_panel}
                 {geoserver_modal}
                 <div id='popup' className='ol-popup'>

@@ -15,6 +15,7 @@
   "author": "cartologic",
   "license": "ISC",
   "dependencies": {
+    "@boundlessgeo/sdk": "^1.0.0",
     "archiver": "^1.3.0",
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.1.1",
@@ -24,7 +25,6 @@
     "babel-polyfill": "^6.20.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
-    "boundless-sdk": "^0.10.32",
     "boundless-sdk-tools": "^0.9.3",
     "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.4.0",

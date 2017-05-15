@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import Select from 'boundless-sdk/components/Select';
-import Navigation from 'boundless-sdk/components/Navigation';
-import AddLayer from './node_modules/boundless-sdk/components/AddLayer.js';
-import ImageExport from 'boundless-sdk/components/ImageExport';
-import MapConfig from 'boundless-sdk/components/MapConfig';
-import FeatureTable from 'boundless-sdk/components/FeatureTable';
+import Select from '@boundlessgeo/sdk/components/Select';
+import Navigation from '@boundlessgeo/sdk/components/Navigation';
+import AddLayer from './node_modules/@boundlessgeo/sdk/components/AddLayer.js';
+import ImageExport from '@boundlessgeo/sdk/components/ImageExport';
+import MapConfig from '@boundlessgeo/sdk/components/MapConfig';
+import FeatureTable from '@boundlessgeo/sdk/components/FeatureTable';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
+import AddLayerModal from '@boundlessgeo/sdk/components/AddLayerModal';
 export default class CartoviewAppBar extends React.Component {
 
     constructor(props) {

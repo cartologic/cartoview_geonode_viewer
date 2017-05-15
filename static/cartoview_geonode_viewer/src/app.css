@@ -29,17 +29,7 @@ html, body {
         box-sizing: border-box;
     }
 }
-.map-config{
-  margin-left: auto;
-  margin-right: auto;
-  position: relative !important;
-  display: inline-grid !important;
-  align-items: center !important;
-  justify-content: space-around !important;
-  grid-gap: 10px !important;
-  margin-top: 10px;
-margin-bottom: 10px;
-}
+
 /* end Dead Simple Grid */
 #map {
     width: 100%;
@@ -56,26 +46,28 @@ margin-bottom: 10px;
 
 #zoom-buttons {
     position: absolute;
-    top: 120px;
+    top: 70px;
     right: 20px;
 }
 
 #home-button {
     position: absolute;
     right: 20px;
-    top: 380px;
+    top: 330px;
 }
-
+.about-ico{
+  color: white !important;
+}
 #print-button {
     position: absolute;
-    top: 280px;
+    top: 230px;
     right: 20px;
 }
 
 #globe-button {
     position: absolute;
     right: 20px;
-    top: 330px;
+    top: 280px;
 }
 
 .layer-tree-panel {
@@ -145,7 +137,7 @@ margin-bottom: 10px;
 
 #geolocation-control {
     position: absolute;
-    top: 230px;
+    top: 175px;
     right: 20px;
 }
 
@@ -187,8 +179,9 @@ margin-bottom: 10px;
 
 #rotate-button {
     position: absolute;
-    top: 70px;
-    right: 20px;
+    top: 150px;
+    left: 20px;
+    right: auto;
 
 }
 
@@ -222,15 +215,16 @@ margin-bottom: 10px;
 
 .chart-panel {
     display: none;
-    position: absolute;
+    position: fixed;
     background: rgba(255, 255, 255, 1);
     padding-top: 30px;
     border: 1px solid #000000;
     bottom: 0px;
     left: 0;
-    height: 50%;
+    height: 30%;
     width: 100%;
-    z-index: 101;
+    padding-bottom: 60px;
+    z-index: 1002;
 }
 
 .about-closer-icon {
@@ -302,10 +296,11 @@ margin-bottom: 10px;
 }
 
 .layer-switcher {
-  position: absolute;
-  top: 20px !important;
-  left: auto;
-  right: 20px;
+  position: fixed;
+top: 70px !important;
+left: 20px;
+z-index: 1;
+/* right: 20px; */
 }
 .feature-table{
   padding: 10px !important;
@@ -317,20 +312,18 @@ margin-bottom: 10px;
     top: 0px;
 }
 
-#playback {
-    display: none;
-    height: 200px;
-    width: 300px;
-    bottom: 300px;
-    right: 100px;
-    position: absolute;
-
-}
 .Addmodal{
+  position: fixed;
+      z-index: 1;
+      /* right: 20px; */
+      top: 120px;
+      left: 20px;
+}
+.Draw{
   position: fixed;
   z-index:1;
   right: 20px;
-  top: 430px;
+  top: 480px;
 }
 
 #geocoding {
@@ -373,20 +366,6 @@ margin-bottom: 10px;
     box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.56);
 }
 
-#playback {
-    bottom: 120px;
-    right: 44%;
-}
-
-.playback {
-    background: #f9f9f9;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 5%;
-    -webkit-box-shadow: 0px 6px 19px 9px rgba(128, 128, 128, 0.48);
-    -moz-box-shadow: 0px 6px 19px 9px rgba(128, 128, 128, 0.48);
-    box-shadow: 0px 6px 19px 9px rgba(128, 128, 128, 0.48);
-}
 
 .select {
     /*margin-right: 10px;
@@ -492,28 +471,6 @@ margin-bottom: 10px;
 }
 
 @media screen and (max-height: 414px) {
-    .ol-zoomslider {
-        top: 4.0em !important;
-        left: .5em;
-        height: 150px !important;
-        background: rgba(0, 188, 212, 0.15) !important;
-        padding: 0px !important;
-        border-radius: 10px !important;
-        border-style: solid;
-        border-width: thin;
-        border-color: rgba(141, 141, 179, 0.76);
-    }
-    .Addmodal {
-    position: fixed;
-    z-index: 1;
-    right: 20px;
-    top: 230px;
-}
-
-    #globe-button {
-        right: 70px !important;
-        top: 20px !important;
-    }
 
     #home-button {
         right: 70px !important;
@@ -522,19 +479,9 @@ margin-bottom: 10px;
 
     #print-button {
         position: absolute;
-        top: 120px;
-        right: 70px;
-    }
-
-    #geolocation-control {
-        position: absolute;
-        top: 175px;
-        right: 70px;
-    }
-
-    .ol-scale-line {
-        position: fixed;
-        left: 45px;
+        top: 170px;
+        right: auto;
+        left: 20px;
     }
 
     .dialog {

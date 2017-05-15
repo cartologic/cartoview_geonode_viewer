@@ -18,8 +18,8 @@
         <md-checkbox ng-model="instanceObj.config.showBaseMapSelector" aria-label=" Base Map Selector">Base Map Selector
         </md-checkbox>
         <md-checkbox ng-model="instanceObj.config.showLegend" aria-label=" Legend"> Legend</md-checkbox>
-        <md-checkbox ng-model="instanceObj.config.showZoomSlider" aria-label=" Zoom Slider">Zoom Slider
-        </md-checkbox>
+        <!-- <md-checkbox ng-model="instanceObj.config.showZoomSlider" aria-label=" Zoom Slider">Zoom Slider
+        </md-checkbox> -->
         <div layout="row" layout-wrap>
             <div flex="66">
                 <md-checkbox ng-model="instanceObj.config.showPlayback" aria-label=" Playback"> Playback
@@ -51,7 +51,7 @@
         <md-checkbox ng-model="instanceObj.config.show3D" aria-label=" show3D">show3D</md-checkbox>
         <md-checkbox ng-model="instanceObj.config.showMapConfig" aria-label=" MapConfig"> MapConfig
         </md-checkbox>
-        <md-checkbox ng-model="instanceObj.config.showEdit" aria-label=" Edit"> Edit</md-checkbox>
+        <md-checkbox ng-model="instanceObj.config.showmapconfig" aria-label=" Edit">Map Config (Save/Load)</md-checkbox>
         <md-checkbox ng-model="instanceObj.config.showMousePostion" aria-label=" MousePostion"> MousePostion
         </md-checkbox>
         <md-checkbox ng-model="instanceObj.config.showAbout" aria-label=" Print"> About Panel</md-checkbox>
@@ -103,7 +103,7 @@
                     style="color: #F44336;">settings</i></a>
             </div>
         </div>
-        <!--<md-checkbox ng-model="instanceObj.config.showWFS_T" aria-label=" WFS-T"> WFS-T</md-checkbox>-->
+        <md-checkbox ng-model="instanceObj.config.showWFS_T" aria-label=" WFS-T">DrawFeature</md-checkbox>
         <div layout="row" layout-wrap>
             <div flex="66">
                 <md-checkbox ng-model="instanceObj.config.showMapOverView" aria-label=" MapOverView"> OverView

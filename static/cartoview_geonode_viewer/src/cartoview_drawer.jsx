@@ -2,23 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import Select from 'boundless-sdk/components/Select';
+import Select from '@boundlessgeo/sdk/components/Select';
+import Navigation from '@boundlessgeo/sdk/components/Navigation';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import Navigation from 'boundless-sdk/components/Navigation';
-import AddLayerModal from 'boundless-sdk/components/AddLayerModal';
-import BaseMapSelector from 'boundless-sdk/components/BaseMapSelector';
-import Bookmarks from 'boundless-sdk/components/Bookmarks';
-import ImageExport from 'boundless-sdk/components/ImageExport';
+import AddLayerModal from '@boundlessgeo/sdk/components/AddLayerModal';
+import BaseMapSelector from '@boundlessgeo/sdk/components/BaseMapSelector';
+import Bookmarks from '@boundlessgeo/sdk/components/Bookmarks';
+import ImageExport from '@boundlessgeo/sdk/components/ImageExport';
 import AppBar from 'material-ui/AppBar';
-import MapConfig from 'boundless-sdk/components/MapConfig';
+import MapConfig from '@boundlessgeo/sdk/components/MapConfig';
 import CartoviewAbout from './cartoview_about';
 import FlatButton from 'material-ui/FlatButton';
-import Measure from 'boundless-sdk/components/Measure';
+import Measure from '@boundlessgeo/sdk/components/Measure';
 import Collapsible from 'react-collapsible';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
-import FeatureTable from 'boundless-sdk/components/FeatureTable';
+import FeatureTable from '@boundlessgeo/sdk/components/FeatureTable';
 import CollapsibleMenuItem from './collapsible_menu_item.jsx'
 export default class CartoviewDrawer extends React.Component {
 
@@ -71,10 +71,7 @@ export default class CartoviewDrawer extends React.Component {
         const export_image = appConfig.showExportImage ? React.createElement(ImageExport, {map: map}) : "";
         const selection = <Select toggleGroup='navigation' map={map}/>;
         const navigation = <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/>;
-        const WFS_T = appConfig.showWFS_T ? <MenuItem leftIcon={<i className="material-icons">mode_edit</i>}
-                                                      onTouchTap={this._toggleWFST.bind(this)}
-                                                      primaryText="Edit Layer"
-            /> : "";
+
 
         const measure = appConfig.showMeasure ? React.createElement(Measure, {
                 toggleGroup: 'navigation',
@@ -141,7 +138,6 @@ export default class CartoviewDrawer extends React.Component {
                     {measure_export}
                     {collapsible_edit}
                     <Divider/>
-                    {WFS_T}
                     {AttributesTable}
                     {playback}
                     {chartsMenuItem}

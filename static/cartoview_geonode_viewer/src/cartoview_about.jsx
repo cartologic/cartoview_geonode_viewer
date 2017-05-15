@@ -1,6 +1,7 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 export default class CartoviewAbout extends React.Component {
     constructor(props) {
@@ -28,10 +29,7 @@ export default class CartoviewAbout extends React.Component {
 
         return (
             <div>
-                <MenuItem leftIcon={<i className="material-icons">info_outline</i>}
-                          onTouchTap={this._handleOpen.bind(this)}
-                          primaryText="About Dialog"
-                />
+              <IconButton onTouchTap={this._handleOpen.bind(this)} tooltip="About Dialog" iconClassName="material-icons about-ico">info_outline</IconButton>
                 <Dialog
                     title={title}
                     actions={actions}
