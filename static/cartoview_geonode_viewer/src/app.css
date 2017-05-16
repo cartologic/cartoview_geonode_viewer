@@ -164,7 +164,7 @@ html, body {
     z-index: 1111;
 }
 
-.ol-custom-overviewmap,
+/*.ol-custom-overviewmap,
 .ol-custom-overviewmap.ol-uncollapsible {
     bottom: 5px;
     left: 5px;
@@ -190,7 +190,7 @@ html, body {
     right: auto;
     left: 1px;
     buttom: 1px;
-}
+}*/
 
 .chart-panel {
     display: none;

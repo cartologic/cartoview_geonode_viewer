@@ -91,19 +91,24 @@
                     </div>
                     <div flex="30">
                         <md-subheader class="md-no-sticky">Defined Charts</md-subheader>
-                        <md-list flex>
+                        <div class="demo-select-all-checkboxes" flex="100" ng-repeat="chart in charts">
+                          <md-checkbox ng-click="toggle(chart,$index)">
+                           {{ chart.title }}
+                          </md-checkbox>
+                        </div>
+                        <!-- <md-list flex>
                             <md-list-item class="md-3-line" ng-repeat="chart in charts" ng-click="null">
                                 <i class="material-icons md-avatar">trending_up</i>
                                 <div class="md-list-item-text" layout="column">
                                     <h3>{{ chart.title }}</h3>
                                 </div>
                             </md-list-item>
-                        </md-list>
+                        </md-list> -->
                     </div>
                 </div>
                 <div layout="row">
                     <md-button ng-click="add()" class="md-raised md-primary">Add</md-button>
-                    <md-button ng-click="remove()" class="md-raised md-primary">Remove</md-button>
+                    <md-button ng-if="selectedtoremove" ng-click="remove(selectedtoremove)" class="md-raised md-primary">Remove</md-button>
                 </div>
             </div>
         </md-dialog-content>

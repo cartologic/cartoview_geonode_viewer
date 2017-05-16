@@ -221,12 +221,32 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                     }
 
                 };
-                $scope.selectedvalues = [];
-                $scope.ValueFieldsChanged = function () {
-                    // console.log($scope)
-                };
-                console.log("asdsa",parentscope);
+                $scope.selectedtoremove = [];
                 $scope.charts = parentscope.instanceObj.config.charts || [];
+                $scope.ValueFieldsChanged = function () {
+                    $scope.charts.splice($scope.charts.indexOf(project),1);
+                };
+                $scope.toggle = function (item,index) {
+                  var idx = $scope.selectedtoremove.indexOf(item);
+                  if (idx > -1) {
+                    $scope.selectedtoremove.splice(idx, 1);
+                  }
+                  else {
+                    $scope.selectedtoremove.push(item);
+                  }
+                  console.log($scope.selectedtoremove);
+                };
+
+                $scope.exists = function (item, list) {
+                  return list.indexOf(item) > -1;
+                };
+                $scope.remove = function (list) {
+                  angular.forEach(list, function(item){
+                       $scope.charts.splice($scope.charts.indexOf(item),1);
+                       console.log("}}}}}}}}}}}",$scope.charts);
+                  });
+
+                }
                 $scope.add = function () {
                     $scope.charts.push({
                         title: $scope.title,
@@ -246,7 +266,7 @@ angular.module('cartoview.viewer.editor').directive('basicControls', function (u
                 };
 
                 $scope.answer = function (answer) {
-
+                    
                     $mdDialog.hide(answer);
 
                 };

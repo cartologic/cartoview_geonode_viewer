@@ -150,13 +150,13 @@ class CartoviewViewer extends React.Component {
     }
 
     componentDidMount() {
-        if (appConfig.showMapOverView) {
-            map.addControl(new ol.control.OverviewMap({
-                className: 'ol-overviewmap ol-custom-overviewmap',
-                collapsed: appConfig.overview_config.collapsed,
-                layers: []
-            }));
-        }
+        // if (appConfig.showMapOverView) {
+        //     map.addControl(new ol.control.OverviewMap({
+        //         className: 'ol-overviewmap ol-custom-overviewmap',
+        //         collapsed: appConfig.overview_config.collapsed,
+        //         layers: []
+        //     }));
+        // }
         if (appConfig.showMousePostion) {
             map.addControl(new ol.control.MousePosition({
                 "projection": "EPSG:4326",
@@ -244,7 +244,7 @@ class CartoviewViewer extends React.Component {
                                          className={"playback"}/></div> : "";
         const load = appConfig.showLoadingPanel ? <LoadingPanel map={map} ></LoadingPanel> : "";
         var charts = appConfig.showCharts ? appConfig.charts : [];
-        if (appConfig.showCharts) {
+        if (appConfig.showCharts && appConfig.charts.length != 0) {
             map.once('postrender', function (event) {
                 for (var i = 0; i < map.getLayers().getArray().length; i++) {
                     for (var j = 0; j < appConfig.charts.length; j++) {
@@ -278,7 +278,7 @@ class CartoviewViewer extends React.Component {
                                     type: 'WMS',
                                     title: 'your GeoServer'
                                 }]}/></div> : "";
-        const charts_panel = appConfig.showCharts ? <div id="chart-panel" className='chart-panel'><Chart ref='chartPanel' combo={true} charts={charts}/></div> : "";
+        const charts_panel = (appConfig.showCharts && appConfig.charts.length !=0) ? <div id="chart-panel" className='chart-panel'><Chart ref='chartPanel' combo={true} charts={charts}/></div> : "";
         const geolocation = appConfig.showGeoLocation ? <div id="geolocation-control" ><Geolocation map={map} ></Geolocation></div> : "";
         const North = appConfig.showNorth ? <div id="rotate-button">
           <Rotate autoHide={appConfig.north_config.autoHide} map={map}></Rotate>
