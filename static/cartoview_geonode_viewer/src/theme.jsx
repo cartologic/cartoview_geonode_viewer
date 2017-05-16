@@ -10,10 +10,6 @@ export default {
   palette: {
     primary1Color: teal500,
     primary2Color: cyan900,
-    primary3Color: lightBlack,
-    accent1Color: pinkA200,
-    accent2Color: black,
-    accent3Color: grey500,
     textColor: darkBlack,
     alternateTextColor: white,
     borderColor: grey300,

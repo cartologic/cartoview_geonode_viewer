@@ -37,6 +37,7 @@ import Rotate from '@boundlessgeo/sdk/components/Rotate';
 import ToolActions from '@boundlessgeo/sdk/actions/ToolActions';
 import DrawFeature from '@boundlessgeo/sdk/components/DrawFeature';
 import Zoom from '@boundlessgeo/sdk/components/Zoom';
+import BaseMapModal from '@boundlessgeo/sdk/components/BaseMapModal';
 import '@boundlessgeo/sdk/dist/css/components.css';
 import IconButton from 'material-ui/IconButton';
 import MapConfigTransformService from '@boundlessgeo/sdk/services/MapConfigTransformService';
@@ -44,7 +45,7 @@ import MapConfigService from '@boundlessgeo/sdk/services/MapConfigService';
 import './app.css';
 import Select from '@boundlessgeo/sdk/components/Select';
 import Navigation from '@boundlessgeo/sdk/components/Navigation';
-// import CartoviewDrawer from './cartoview_drawer';
+import Paper from 'material-ui/Paper';
 import FeatureTable from '@boundlessgeo/sdk/components/FeatureTable';
 import Header from '@boundlessgeo/sdk/components/Header';
 import {lightBlue600} from 'material-ui/styles/colors'
@@ -84,7 +85,8 @@ class CartoviewViewer extends React.Component {
         this.state = {
             errors: [],
             errorOpen: false,
-            addLayerModalOpen: false
+            addLayerModalOpen: false,
+            baseMapModalOpen: false
         };
     }
 
@@ -141,6 +143,11 @@ class CartoviewViewer extends React.Component {
             addLayerModalOpen: false
         });
     }
+    _handleBaseMapCloseModal() {
+        this.setState({
+              baseMapModalOpen : false
+        });
+    }
 
     componentDidMount() {
         if (appConfig.showMapOverView) {
@@ -153,7 +160,7 @@ class CartoviewViewer extends React.Component {
         if (appConfig.showMousePostion) {
             map.addControl(new ol.control.MousePosition({
                 "projection": "EPSG:4326",
-                "undefinedHTML": "<span style='color: red'>Out Of Map</span>",
+                "undefinedHTML": "<span style='color: black'>Out Of Map</span>",
                 "coordinateFormat": ol.coordinate.createStringXY(4)
             }));
         }
@@ -184,12 +191,20 @@ class CartoviewViewer extends React.Component {
     _toggleAddLayerModal() {
         this.setState({addLayerModalOpen: true})
     }
-
-    _toggleChartPanel(evt) {
-        evt.preventDefault();
-        this._toggle(document.getElementById('chart-panel'));
+    _toggleBaseMapModal() {
+        this.refs.basemapmodal.getWrappedInstance().open();
     }
 
+    _toggleChartPanel(evt) {
+        // evt.preventDefault();
+        this._toggle(document.getElementById('chart-panel'));
+    }
+    _toggleQuery() {
+        this._toggle(document.getElementById('query-panel'));
+    }
+    _toggleGeocoding() {
+        this._toggle(document.getElementById('geocoding_paper'));
+    }
     render() {
         var error;
         if (this.state.errors.length > 0) {
@@ -217,27 +232,9 @@ class CartoviewViewer extends React.Component {
         <LayerList allowFiltering={true} showOpacity={true} allowStyling={true} downloadFormat={'GPX'} showDownload={true} allowRemove={false} showGroupContent={true}
                        showZoomTo={true} allowLabeling={true} allowEditing={true} allowReordering={true} showTable={true} handleResolutionChange={true} includeLegend={appConfig.showLegend}
                        map={map}/> : '';
-        const zoomControls = appConfig.showZoomControls ?
-            React.createElement("div", {id: 'zoom-buttons'},
-                React.createElement(Zoom, {
-                    duration: appConfig.zoom_config.duration,
-                    zoomInTipLabel: appConfig.zoom_config.zoomInTipLabel,
-                    zoomOutTipLabel: appConfig.zoom_config.zoomOutTipLabel,
-                    delta: appConfig.zoom_config.delta,
-                    map: map
-                })
-            ) : "";
-        const query_panel = appConfig.showQuery ? React.createElement("div", {
-                    id: 'query-panel',
-                    className: 'query-panel'
-                },
-                <QueryBuilder map={map}/>
-            ) : "";
-        const measure = appConfig.showMeasure ? React.createElement(Measure, {
-                toggleGroup: 'navigation',
-                map: map
-            }) : "";
-
+        const zoomControls = appConfig.showZoomControls ? <div id='zoom-buttons'><Zoom duration={appConfig.zoom_config.duration} zoomInTipLabel={appConfig.zoom_config.zoomInTipLabel} zoomOutTipLabel={appConfig.zoom_config.zoomOutTipLabel} delta={appConfig.zoom_config.delta} map={map}></Zoom></div> : "";
+        const query_panel = appConfig.showQuery ? <div id="query-panel" className='query-panel'><QueryBuilder map={map}/></div> : "";
+        const measure = appConfig.showMeasure ? <Measure toggleGroup='navigation' map={map} ></Measure> : "";
         const playback_panel = appConfig.showPlayback ?
             <div id='timeline'><Playback map={map} minDate={appConfig.playback_config.minDate}
                                          maxDate={appConfig.playback_config.maxDate}
@@ -245,8 +242,7 @@ class CartoviewViewer extends React.Component {
                                          numIntervals={appConfig.playback_config.numIntervals}
                                          autoPlay={appConfig.playback_config.autoPlay}
                                          className={"playback"}/></div> : "";
-        const load = appConfig.showLoadingPanel ? React.createElement(LoadingPanel, {map: map}) : "";
-
+        const load = appConfig.showLoadingPanel ? <LoadingPanel map={map} ></LoadingPanel> : "";
         var charts = appConfig.showCharts ? appConfig.charts : [];
         if (appConfig.showCharts) {
             map.once('postrender', function (event) {
@@ -269,8 +265,8 @@ class CartoviewViewer extends React.Component {
                 <ContentAdd />
             </FloatingActionButton> : "";
             const charts_button = appConfig.showCharts ?
-                <FloatingActionButton className="Addmodal" onTouchTap={(e) => this._toggleChartPanel(this)} mini={true}>
-                  <i className="material-icons">insert_chart</i>
+                <FloatingActionButton className="charts_button" onTouchTap={(e)=>{e.preventDefault();this._toggleChartPanel(this)}} mini={true}>
+                  <i className="fa fa-bar-chart"></i>
 
                 </FloatingActionButton> : "";
         const geoserver_modal = appConfig.showAddLayerModal ?
@@ -282,44 +278,26 @@ class CartoviewViewer extends React.Component {
                                     type: 'WMS',
                                     title: 'your GeoServer'
                                 }]}/></div> : "";
-        const charts_panel = appConfig.showCharts ? React.createElement("div", {
-                    id: 'chart-panel',
-                    className: 'chart-panel'
-                },
-                React.createElement('div', {className: 'close'}, React.createElement("a", {
-                        href: '#',
-                        id: 'chart-panel-closer',
-                        className: 'chart-panel-closer',
-                        onClick: this._toggleChartPanel.bind(this)
-                    },
-                    "X"
-                ))
-                ,
-                <Chart ref='chartPanel' combo={true} charts={charts}/>
-            ) : "";
-
-        const geolocation = appConfig.showGeoLocation ? React.createElement("div", {id: 'geolocation-control'},
-                React.createElement(Geolocation, {map: map})
-            ) : "";
-        const North = appConfig.showNorth ? React.createElement("div", {id: 'rotate-button'},
-                React.createElement(Rotate, {
-                    autoHide: appConfig.north_config.autoHide,
-                    map: map
-                })
-            ) : "";
+        const charts_panel = appConfig.showCharts ? <div id="chart-panel" className='chart-panel'><Chart ref='chartPanel' combo={true} charts={charts}/></div> : "";
+        const geolocation = appConfig.showGeoLocation ? <div id="geolocation-control" ><Geolocation map={map} ></Geolocation></div> : "";
+        const North = appConfig.showNorth ? <div id="rotate-button">
+          <Rotate autoHide={appConfig.north_config.autoHide} map={map}></Rotate>
+        </div> : "";
         const WFST = appConfig.showWFS_T ? <DrawFeature map={map}></DrawFeature> : "";
-
-        const geocode_search = <Geocoding maxResult={5}/>;
-        const geocoding_results =  React.createElement("div", {
-                id: 'geocoding-results',
-                className: 'geocoding-results-panel'
-            }, <GeocodingResults map={map}/>);
-        // const menu_bar = React.createElement("div", {id: "menu_bar"},
-        //     React.createElement("div", {style: {display: "flex"}}, React.createElement(CartoviewDrawer), geocode_search), geocoding_results
-        // );
+        const geocoding_paper= appConfig.showGeoCoding ? <Paper id="geocoding_paper" zDepth={3} ><Geocoding maxResult={5}/><GeocodingResults map={map}/></Paper> : "";
         let measure_tool= appConfig.showMeasure ? <Measure toggleGroup='navigation' map={map}/> : "";
         const save_load_control = appConfig.showmapconfig ? <MapConfig map={map} /> : "";
-        const export_image = appConfig.showExportImage ? React.createElement(ImageExport, {map: map}) : "";
+        const query_button = appConfig.showQuery ? <FloatingActionButton className="query_button" onTouchTap={this._toggleQuery.bind(this)} mini={true}>
+        <i  className="fa fa-filter" aria-hidden="true"></i>
+        </FloatingActionButton> :"";
+        const search_button = appConfig.showGeoCoding  ? <FloatingActionButton className="search_button" onTouchTap={this._toggleGeocoding.bind(this)} mini={true}>
+        <i  className="fa fa-search" aria-hidden="true"></i>
+        </FloatingActionButton> :"";
+        const basemap_button = appConfig.showBaseMapSelector ? <FloatingActionButton className="basemap_button" onTouchTap={this._toggleBaseMapModal.bind(this)} mini={true}>
+        <i  className="fa fa-map" aria-hidden="true"></i>
+        </FloatingActionButton> :"";
+        const base_map_modal=appConfig.showBaseMapSelector ? <BaseMapModal ref='basemapmodal' map={map}  /> : "" ;
+        const export_image = appConfig.showExportImage ? <ImageExport map={map}></ImageExport> : "";
         const about = appConfig.showAbout ? <CartoviewAbout/> : "";
         const selection = appConfig.showAttributesTable || appConfig.showCharts ? <Select toggleGroup='navigation' map={map}/> : "" ;
         const navigation =appConfig.showAttributesTable || appConfig.showCharts ? <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/> :"";
@@ -346,9 +324,13 @@ class CartoviewViewer extends React.Component {
                 {app_toolbar}
                 {add_layer_modal}
                 {charts_button}
+                {query_button}
+                {basemap_button}
+                {search_button}
                 <MapPanel useHistory={true} id='map' map={map}/>
                 {globe}
                 {print}
+                {geocoding_paper}
                 {homeBtn}
                 {layerSwitcher}
                 {geolocation}
@@ -359,6 +341,7 @@ class CartoviewViewer extends React.Component {
                 {charts_panel}
                 {playback_panel}
                 {geoserver_modal}
+                {base_map_modal}
                 <div id='popup' className='ol-popup'>
                     {info_popup}
                     {edit_popup}

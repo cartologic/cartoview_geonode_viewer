@@ -29,7 +29,7 @@ export default class CartoviewAbout extends React.Component {
 
         return (
             <div>
-              <IconButton onTouchTap={this._handleOpen.bind(this)} tooltip="About Dialog" iconClassName="material-icons about-ico">info_outline</IconButton>
+              <IconButton onTouchTap={this._handleOpen.bind(this)} tooltip="About Dialog" iconClassName="fa fa-info-circle about-ico"></IconButton>
                 <Dialog
                     title={title}
                     actions={actions}

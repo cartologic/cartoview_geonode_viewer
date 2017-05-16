@@ -4,16 +4,29 @@
     <base target="_blank">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           rel="stylesheet">
     <title>{{ instance.title }}</title>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Object.assign"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="{{ STATIC_URL }}cartoview_geonode_viewer/resources/ol3-cesium/Cesium.js" type="text/javascript"
             charset="utf-8"></script>
-
+<style>
+.no-js #loader { display: none;  }
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url({{ STATIC_URL }}cartoview_geonode_viewer/pre_loading.gif) center no-repeat #fff;
+}
+</style>
 </head>
 <body>
+<div class="se-pre-con"></div>
 <div id='main'></div>
 <script type="text/javascript">
     var configURL = "{% url 'map_json' instance.map_id %}";
@@ -26,8 +39,12 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="{{ STATIC_URL }}cartoview_geonode_viewer/src/jquery.ui.touch-punch.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 <script src="{{ STATIC_URL }}cartoview_geonode_viewer/dist/Viewer.js"></script>
 <script>
+    $(window).load(function() {
+    $(".se-pre-con").fadeOut("slow");;
+    });
     $(function () {
         $("#playback").draggable();
         $("#edit-tool-panel").draggable();
@@ -40,9 +57,12 @@
         $("#geocoding-results input").click(function () {
             $(this).focus();
         });
+        $("#geocoding_paper").draggable();
+        $("#geocoding_paper input").click(function () {
+            $(this).focus();
+        });
         $("#float_control").draggable();
     });
 </script>
 </body>
 </html>
-

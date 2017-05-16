@@ -109,19 +109,6 @@ html, body {
     z-index: 100;
 }
 
-.geocoding-results-panel {
-    display: none;
-    /*position: absolute;*/
-    /*background: rgba(255, 255, 255, 1);*/
-    /*padding: 15px;*/
-    /*border-left: 1px solid #bbbbbb;*/
-    /*border-bottom: 1px solid #bbbbbb;*/
-    /*top: 70px;*/
-    /*max-width: 50%;*/
-    /*z-index: 1111;*/
-    max-width: 300px;
-}
-
 .query-panel {
     display: none;
     position: absolute;
@@ -175,14 +162,6 @@ html, body {
     top: 72px;
     right: auto;
     z-index: 1111;
-}
-
-#rotate-button {
-    position: absolute;
-    top: 150px;
-    left: 20px;
-    right: auto;
-
 }
 
 .ol-custom-overviewmap,
@@ -285,10 +264,10 @@ html, body {
 }
 
 .ol-mouse-position {
-    bottom: 25px;
+    bottom: 10px;
     right: 8px;
     top: auto;
-    position: absolute;
+    position: fixed;
     background: rgba(0, 60, 136, .5);
     border-radius: 4px;
     color: #ffffff;
@@ -318,6 +297,53 @@ z-index: 1;
       /* right: 20px; */
       top: 120px;
       left: 20px;
+}
+.charts_button{
+  position: fixed;
+      z-index: 1;
+      /* right: 20px; */
+      top: 170px;
+      left: 20px;
+}
+.query_button{
+  position: fixed;
+      z-index: 1;
+      /* right: 20px; */
+      top: 220px;
+      left: 20px;
+}
+.basemap_button{
+  position: fixed;
+  z-index: 1;
+  /* right: 20px; */
+  top: 270px;
+  left: 20px;
+}
+.search_button{
+  position: fixed;
+  z-index: 1;
+  /* right: 20px; */
+  top: 320px;
+  left: 20px;
+}
+#rotate-button {
+    position: absolute;
+    top: 370px;
+    left: 20px;
+    right: auto;
+
+}
+#geocoding_paper{
+  position: fixed;
+  display: none;
+  max-width: 380px;
+  padding: 10px;
+  top: 60px;
+  left: 100px;
+  right: auto;
+}
+.geocoding-results{
+  max-width: 380px !important;
 }
 .Draw{
   position: fixed;
@@ -380,7 +406,7 @@ z-index: 1;
 .geocoding {
     position: relative;
     font-size: 16px;
-    width: 256px !important;
+    width: 280px !important;
     height: 48px;
     display: inline-block;
     line-height: 24px;
@@ -442,10 +468,6 @@ z-index: 1;
         width: 180px !important;
     }
 
-    .geocoding-results-panel {
-        max-width: 180px !important;
-    }
-
     .layer-switcher {
         max-width: 280px !important;
     }
@@ -471,18 +493,19 @@ z-index: 1;
 }
 
 @media screen and (max-height: 414px) {
-
+    #rotate-button{
+      left: 70px !important;
+      top: 120px !important;
+    }
     #home-button {
         right: 70px !important;
         top: 70px !important;
     }
-
-    #print-button {
-        position: absolute;
-        top: 170px;
-        right: auto;
-        left: 20px;
+    .search_button {
+        left: 70px !important;
+        top: 70px !important;
     }
+
 
     .dialog {
         transform: none !important;
