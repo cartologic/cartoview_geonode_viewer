@@ -25,7 +25,12 @@ module.exports = {
         publicPath: "/static/cartoview_geonode_viewer/dist/"
     },
     node: {fs: "empty"},
-    plugins: [new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('production')}}),new webpack.optimize.UglifyJsPlugin({compress: {warnings: true}})],
+    plugins: [
+        new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('production')}}),
+        new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.NoErrorsPlugin(),
+        new webpack.optimize.UglifyJsPlugin({compress: {warnings: true}})],
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
