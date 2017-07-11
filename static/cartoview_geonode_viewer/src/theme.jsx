@@ -1,4 +1,4 @@
-import {cyan900, lightBlack, pinkA200, grey100, grey500, darkBlack, white, lime100, grey300, cyan500,lightBlue600,lightBlueA100,blue900,lime50,cyan50,black,cyanA400,teal500} from 'material-ui/styles/colors';
+import {cyan900,teal500,darkBlack,white,grey300,cyan500 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
 import zIndex from 'material-ui/styles/zIndex';
 import spacing from 'material-ui/styles/spacing';

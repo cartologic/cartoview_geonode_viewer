@@ -2,7 +2,7 @@ import React from 'react';
 global.React = React;
 import ReactDOM from 'react-dom';
 global.ReactDOM = ReactDOM;
-import ol from '../node_modules/@boundlessgeo/sdk/node_modules/openlayers';
+import ol from 'openlayers';
 import './map'
 import {IntlProvider} from 'react-intl';
 global.IntlProvider = IntlProvider;

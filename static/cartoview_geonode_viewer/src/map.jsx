@@ -1,4 +1,4 @@
-import ol from '../node_modules/@boundlessgeo/sdk/node_modules/openlayers';
+import ol from 'openlayers';
 let map = new ol.Map({
     controls: [new ol.control.Attribution({collapsible: false})],
     layers: [
