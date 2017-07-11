@@ -298,7 +298,7 @@ class CartoviewViewer extends React.Component {
         </FloatingActionButton> :"";
         const base_map_modal=appConfig.showBaseMapSelector ? <BaseMapModal ref='basemapmodal' map={map}  /> : "" ;
         const export_image = appConfig.showExportImage ? <ImageExport map={map}></ImageExport> : "";
-        const about = appConfig.showAbout ? <CartoviewAbout/> : "";
+        const about = appConfig.showAbout ? <CartoviewAbout/> : <IconButton iconClassName="fa fa-globe about-ico"></IconButton>;
         const selection = appConfig.showAttributesTable || appConfig.showCharts ? <Select toggleGroup='navigation' map={map}/> : "" ;
         const navigation =appConfig.showAttributesTable || appConfig.showCharts ? <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/> :"";
         const app_toolbar=<Header iconElementLeft={about}>
