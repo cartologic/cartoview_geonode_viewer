@@ -21,10 +21,10 @@ module.exports = {
         new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('production')}}),
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.optimize.DedupePlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin({compress: {warnings: true}})],
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['*', '.js', '.jsx']
     },
     module: {
         loaders: [
