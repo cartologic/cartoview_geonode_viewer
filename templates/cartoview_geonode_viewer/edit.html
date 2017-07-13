@@ -67,12 +67,28 @@
     </script>
 {% endblock %}
 {% block body_directives %}ng-app="cartoview.viewer.editor"{% endblock %}
+
 {% block body %}
     <div layout="row" layout-align="center center" layout-wrap>
         <md-content layout-padding flex-gt-sm="70" flex="100">
+          {% load static %}
+<div layout="row">
+  <div layout="column" flex="25">
+    <a href="/">
+     <img src="{% static 'cartoview_geonode_viewer/cartoview-logo-text.png' %}"  />
+   </a>
+  </div>
+  <div layout="column" flex="65" >
+     <h3  style="text-align:right ;color:#6E6E6E;">Webapp Builder</h3>
+  </div>
+
+</div>
+<hr style="padding:0px;border: 1px solid #6E6E6E"/>
+
             <h4>{% if instance %}Edit: {{ instance.title }}{% else %}New Map Viewer{% endif %}</h4>
             <map-selector></map-selector>
             <div>
+
                 <basic-config></basic-config>
                 <basic-controls></basic-controls>
                 <actions-bar ng-if="selected.map"></actions-bar>
