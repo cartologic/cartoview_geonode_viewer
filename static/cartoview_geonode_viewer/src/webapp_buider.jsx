@@ -9,7 +9,10 @@ global.IntlProvider = IntlProvider;
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import CustomTheme from './theme';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import AppBar  from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import MenuIcon from 'material-ui/svg-icons/image/dehaze';
 import MapConfig from '@boundlessgeo/sdk/components/MapConfig';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -48,7 +51,11 @@ import Navigation from '@boundlessgeo/sdk/components/Navigation';
 import Paper from 'material-ui/Paper';
 import FeatureTable from '@boundlessgeo/sdk/components/FeatureTable';
 import Header from '@boundlessgeo/sdk/components/Header';
-import {lightBlue600} from 'material-ui/styles/colors'
+import {lightBlue600} from 'material-ui/styles/colors';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
+import {List, ListItem} from 'material-ui/List';
 injectTapEventPlugin();
 let printLayouts = [{
     name: 'Layout 1',
@@ -86,7 +93,8 @@ class CartoviewViewer extends React.Component {
             errors: [],
             errorOpen: false,
             addLayerModalOpen: false,
-            baseMapModalOpen: false
+            baseMapModalOpen: false,
+            drawer_open: false
         };
     }
 
@@ -103,6 +111,11 @@ class CartoviewViewer extends React.Component {
     componentWillReceiveProps(props) {
         this.updateMap(props);
     }
+    handleToggle(){
+        this.setState({drawer_open: !this.state.drawer_open});
+    }
+   handleClose () 
+   { this.setState({drawer_open: false});}
 
     updateMap(props) {
         if (props.config) {
@@ -206,6 +219,8 @@ class CartoviewViewer extends React.Component {
         this._toggle(document.getElementById('geocoding_paper'));
     }
     render() {
+
+     
         var error;
         if (this.state.errors.length > 0) {
             var msg = '';
@@ -261,7 +276,7 @@ class CartoviewViewer extends React.Component {
             });
         }
         const add_layer_modal = appConfig.showAddLayerModal ?
-            <FloatingActionButton className="Addmodal" onTouchTap={(e) => this._toggleAddLayerModal(this)} mini={true}>
+            <FloatingActionButton onTouchTap={(e) => this._toggleAddLayerModal(this)} mini={true}>
                 <ContentAdd />
             </FloatingActionButton> : "";
             const charts_button = appConfig.showCharts ?
@@ -283,31 +298,30 @@ class CartoviewViewer extends React.Component {
         const North = appConfig.showNorth ? <div id="rotate-button">
           <Rotate autoHide={appConfig.north_config.autoHide} map={map}></Rotate>
         </div> : "";
-        const WFST = appConfig.showWFS_T ? <DrawFeature map={map}></DrawFeature> : "";
+        const WFST = appConfig.showWFS_T ? <DrawFeature  map={map}></DrawFeature> : "";
         const geocoding_paper= appConfig.showGeoCoding ? <Paper id="geocoding_paper" zDepth={3} ><Geocoding maxResult={5}/><GeocodingResults map={map}/></Paper> : "";
         let measure_tool= appConfig.showMeasure ? <Measure toggleGroup='navigation' map={map}/> : "";
         const save_load_control = appConfig.showmapconfig ? <MapConfig map={map} /> : "";
-        const query_button = appConfig.showQuery ? <FloatingActionButton className="query_button" onTouchTap={this._toggleQuery.bind(this)} mini={true}>
+        const query_button = appConfig.showQuery ? <FloatingActionButton onTouchTap={this._toggleQuery.bind(this)} mini={true}>
         <i  className="fa fa-filter" aria-hidden="true"></i>
         </FloatingActionButton> :"";
-        const search_button = appConfig.showGeoCoding  ? <FloatingActionButton className="search_button" onTouchTap={this._toggleGeocoding.bind(this)} mini={true}>
+        const search_button = appConfig.showGeoCoding  ? <FloatingActionButton  onTouchTap={this._toggleGeocoding.bind(this)} mini={true}>
         <i  className="fa fa-search" aria-hidden="true"></i>
         </FloatingActionButton> :"";
         const basemap_button = appConfig.showBaseMapSelector ? <FloatingActionButton className="basemap_button" onTouchTap={this._toggleBaseMapModal.bind(this)} mini={true}>
         <i  className="fa fa-map" aria-hidden="true"></i>
         </FloatingActionButton> :"";
         const base_map_modal=appConfig.showBaseMapSelector ? <BaseMapModal ref='basemapmodal' map={map}  /> : "" ;
-        const export_image = appConfig.showExportImage ? <ImageExport map={map}></ImageExport> : "";
+        const export_image = appConfig.showExportImage ?<FloatingActionButton  mini={true}>  <ImageExport map={map} ></ImageExport></FloatingActionButton>  : "";
         const about = appConfig.showAbout ? <CartoviewAbout/> : <IconButton iconClassName="fa fa-globe about-ico"></IconButton>;
         const selection = appConfig.showAttributesTable || appConfig.showCharts ? <Select toggleGroup='navigation' map={map}/> : "" ;
-        const navigation =appConfig.showAttributesTable || appConfig.showCharts ? <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/> :"";
+        const navigation =appConfig.showAttributesTable || appConfig.showCharts ? <FloatingActionButton className="navigation-btn" mini={true} ><Navigation secondary={true} className="nav-icon" toggleGroup='navigation' toolId='nav'/> </FloatingActionButton>:"";
         const app_toolbar=<Header iconElementLeft={about}>
           {save_load_control}
-            {export_image}
-            {WFST}
-            {measure_tool}
-            {selection}
-            {navigation}
+           
+            
+            
+          
           </Header>;
 
         let info_popup = appConfig.showInfoPopup ? <InfoPopup toggleGroup='navigation' toolId='nav'
@@ -315,21 +329,49 @@ class CartoviewViewer extends React.Component {
         let edit_popup = appConfig.showEditPopup ? <EditPopup map={map}/> : "";
         if (appConfig.showEditPopup && appConfig.showInfoPopup) {
             info_popup = "";
-        }
+
+      
+                            }
+        const side_menu_btn =   <FloatingActionButton className="side-menu-btn" onTouchTap={this.handleToggle.bind(this) } mini={true}>
+                                <MenuIcon/>
+                                </FloatingActionButton>                      
+        const side_menu = <div>
+                            <Drawer docked={false}  open={this.state.drawer_open} width={300} >
+                            <AppBar showMenuIconButton={false} title="webApp Builder" iconElementRight={<IconButton><NavigationClose onTouchTap={this.handleClose.bind(this)}  /></IconButton>} />
+                            <List>
+                            <ListItem disabled={true}>Save map as image <div>  {export_image} </div></ListItem>
+                            <Divider  />
+                            <ListItem disabled={true}><div>Draw shapes on map  <FloatingActionButton className="draw-btn-list" mini={true} >{WFST}</FloatingActionButton ></div></ListItem>
+                            <Divider  />
+                            <ListItem disabled={true}> Add layers  <FloatingActionButton mini={true} > <div> {add_layer_modal}</div></FloatingActionButton ></ListItem>
+                            <Divider  />
+                            <ListItem disabled={true}> Measurements on map  <FloatingActionButton mini={true} >{measure_tool}</FloatingActionButton ></ListItem>
+                            <Divider  />
+                            <ListItem disabled={true}>Select area on map  <FloatingActionButton mini={true} >{selection}</FloatingActionButton ></ListItem>
+                            <Divider  />
+                            <ListItem disabled={true}> map configuration <FloatingActionButton mini={true} >{save_load_control}</FloatingActionButton ></ListItem>
+                            <Divider  />
+                            <ListItem disabled={true}> print the map  <FloatingActionButton mini={true} >  {print}</FloatingActionButton ></ListItem>
+                            <Divider  />
+                            </List>
+                            <ListItem disabled={true}> Search   <FloatingActionButton mini={true} >   {search_button}</FloatingActionButton ></ListItem>
+                            <Divider  />
+                            <ListItem disabled={true}> Add filter <FloatingActionButton mini={true} >   {query_button}</FloatingActionButton ></ListItem>
+                            <Divider  />
+                            <ListItem disabled={true}> Choose base map <FloatingActionButton mini={true} >   {basemap_button}</FloatingActionButton ></ListItem>
+                            <Divider  />
+                            </Drawer>
+                          </div>
 
         /* end controllers */
         return (
             <div id='content'>
-                {error}
-                {app_toolbar}
-                {add_layer_modal}
-                {charts_button}
-                {query_button}
-                {basemap_button}
-                {search_button}
+             {side_menu_btn}
+             {navigation}
+                {error}            
+                {charts_button}             
                 <MapPanel useHistory={true} id='map' map={map}/>
                 {globe}
-                {print}
                 {geocoding_paper}
                 {homeBtn}
                 {layerSwitcher}
@@ -346,6 +388,7 @@ class CartoviewViewer extends React.Component {
                     {info_popup}
                     {edit_popup}
                 </div>
+                 {side_menu}
             </div>
         );
     }

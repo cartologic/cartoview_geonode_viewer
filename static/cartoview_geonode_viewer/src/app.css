@@ -56,18 +56,21 @@ html, body {
     top: 330px;
 }
 .about-ico{
-  color: white !important;
+  color: black !important;
 }
+.headerIcons {
+    color: #000000 !important;
+     }
 #print-button {
-    position: absolute;
+    /*position: absolute;
     top: 230px;
-    right: 20px;
+    right: 20px;*/
 }
 
 #globe-button {
     position: absolute;
     right: 20px;
-    top: 280px;
+    top: 230px;
 }
 
 .layer-tree-panel {
@@ -118,7 +121,7 @@ html, body {
     border-bottom: 1px solid #bbbbbb;
     top: 20px;
     right: auto;
-    z-index: 1111;
+    z-index: 1111111;
     cursor: pointer;
 }
 
@@ -161,7 +164,7 @@ html, body {
     border: 1px solid #000000;
     top: 72px;
     right: auto;
-    z-index: 1111;
+    z-index: 11111110;
 }
 
 /*.ol-custom-overviewmap,
@@ -260,7 +263,7 @@ html, body {
     top: 72px;
     right: 100px;
     max-width: 50%;
-    z-index: 1111;
+    z-index: 11110111;
 }
 
 .ol-mouse-position {
@@ -273,12 +276,17 @@ html, body {
     color: #ffffff;
     padding: 4px;
 }
-
+.side-menu-btn{
+    position: fixed;
+    top: 20px !important;
+    left: 20px;
+    z-index: 1;
+}
 .layer-switcher {
-  position: fixed;
-top: 70px !important;
-left: 20px;
-z-index: 1;
+  /*position: fixed;*/
+/*top: 90 px !important;
+left: 20px;*/
+z-index: 1100010;
 /* right: 20px; */
 }
 .feature-table{
@@ -293,7 +301,7 @@ z-index: 1;
 
 .Addmodal{
   position: fixed;
-      z-index: 1;
+      z-index: 111000;
       /* right: 20px; */
       top: 120px;
       left: 20px;
@@ -309,28 +317,38 @@ z-index: 1;
   position: fixed;
       z-index: 1;
       /* right: 20px; */
-      top: 220px;
-      left: 20px;
+      /*top: 220px;
+      left: 20px;*/
 }
 .basemap_button{
-  position: fixed;
+  /*position: fixed;*/
   z-index: 1;
   /* right: 20px; */
-  top: 270px;
-  left: 20px;
+  /*top: 270px;
+  left: 20px;*/
+}
+.navigation-btn{
+    position: fixed;
+    top: 390px !important;
+    right: 20px;
+    z-index: 1;
+}
+.nav-icon{
+
+   left: 0px; 
 }
 .search_button{
-  position: fixed;
+  /*position: fixed;*/
   z-index: 1;
   /* right: 20px; */
-  top: 320px;
-  left: 20px;
+  /*top: 320px;
+  left: 20px;*/
 }
 #rotate-button {
     position: absolute;
-    top: 370px;
-    left: 20px;
-    right: auto;
+    top: 280px;
+    right: 20px;
+  
 
 }
 #geocoding_paper{
@@ -341,6 +359,9 @@ z-index: 1;
   top: 60px;
   left: 100px;
   right: auto;
+
+
+  z-index:1000000;
 }
 .geocoding-results{
   max-width: 380px !important;
@@ -348,7 +369,7 @@ z-index: 1;
 .Draw{
   position: fixed;
   z-index:1;
-  right: 20px;
+  /*right: 20px;*/
   top: 480px;
 }
 
@@ -357,7 +378,7 @@ z-index: 1;
     position: absolute;
     top: 72px;
     max-width: 30%;
-    right: 35%;
+    /*right: 35%;*/
     background: aliceblue;
     padding: 20px;
     border-radius: 25px;
@@ -514,4 +535,22 @@ z-index: 1;
     .dialog_body {
         max-height: 100px !important;
     }
+.img-ext-btn{
+    /*position : fixed;
+    top : 50px !important;
+    padding: 0 !important;
+    box-shadow:0 !important;*/
+    line-height: 0px !important;
+    right: 0px !important;
+
+}
+.headerIcons {
+  
+    right: 3px !important ;
+    bottom:3px !important;
+  }
+.select{
+
+    /*right:5px !important;*/
+}
 }
