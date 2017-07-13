@@ -48,7 +48,8 @@ import Navigation from '@boundlessgeo/sdk/components/Navigation';
 import Paper from 'material-ui/Paper';
 import FeatureTable from '@boundlessgeo/sdk/components/FeatureTable';
 import Header from '@boundlessgeo/sdk/components/Header';
-import {lightBlue600} from 'material-ui/styles/colors'
+import {lightBlue600} from 'material-ui/styles/colors';
+import Button from '@boundlessgeo/sdk/components/Button';
 injectTapEventPlugin();
 let printLayouts = [{
     name: 'Layout 1',
@@ -261,9 +262,10 @@ class CartoviewViewer extends React.Component {
             });
         }
         const add_layer_modal = appConfig.showAddLayerModal ?
-            <FloatingActionButton className="Addmodal" onTouchTap={(e) => this._toggleAddLayerModal(this)} mini={true}>
-                <ContentAdd />
-            </FloatingActionButton> : "";
+
+            <Button className="sdk-component" tooltip="add layer " iconClassName='headerIcons fa fa-plus  ' style={this.props.style} buttonType='Icon'  onTouchTap={(e) => this._toggleAddLayerModal(this)} mini={true}>
+
+            </Button>: "";
             const charts_button = appConfig.showCharts ?
                 <FloatingActionButton className="charts_button" onTouchTap={(e)=>{e.preventDefault();this._toggleChartPanel(this)}} mini={true}>
                   <i className="fa fa-bar-chart"></i>
@@ -287,27 +289,32 @@ class CartoviewViewer extends React.Component {
         const geocoding_paper= appConfig.showGeoCoding ? <Paper id="geocoding_paper" zDepth={3} ><Geocoding maxResult={5}/><GeocodingResults map={map}/></Paper> : "";
         let measure_tool= appConfig.showMeasure ? <Measure toggleGroup='navigation' map={map}/> : "";
         const save_load_control = appConfig.showmapconfig ? <MapConfig map={map} /> : "";
-        const query_button = appConfig.showQuery ? <FloatingActionButton className="query_button" onTouchTap={this._toggleQuery.bind(this)} mini={true}>
-        <i  className="fa fa-filter" aria-hidden="true"></i>
-        </FloatingActionButton> :"";
-        const search_button = appConfig.showGeoCoding  ? <FloatingActionButton className="search_button" onTouchTap={this._toggleGeocoding.bind(this)} mini={true}>
-        <i  className="fa fa-search" aria-hidden="true"></i>
-        </FloatingActionButton> :"";
-        const basemap_button = appConfig.showBaseMapSelector ? <FloatingActionButton className="basemap_button" onTouchTap={this._toggleBaseMapModal.bind(this)} mini={true}>
-        <i  className="fa fa-map" aria-hidden="true"></i>
-        </FloatingActionButton> :"";
+        const query_button = appConfig.showQuery ? <Button className="sdk-component" tooltip="add filter " iconClassName='headerIcons  fa fa-filter' style={this.props.style} buttonType='Icon'  onTouchTap={this._toggleQuery.bind(this)} mini={true}>
+
+        </Button> :"";
+        const search_button = appConfig.showGeoCoding  ?
+        <Button className="sdk-component" tooltip="Search " iconClassName='headerIcons  fa fa-search' style={this.props.style} buttonType='Icon'  onTouchTap={this._toggleGeocoding.bind(this)} mini={true}>
+        </Button>:"";
+        const basemap_button = appConfig.showBaseMapSelector ?<Button className="sdk-component" tooltip="select a base map" iconClassName='headerIcons  fa fa-map' style={this.props.style} buttonType='Icon'  onTouchTap={this._toggleBaseMapModal.bind(this)} mini={true}>
+        </Button> :"";
         const base_map_modal=appConfig.showBaseMapSelector ? <BaseMapModal ref='basemapmodal' map={map}  /> : "" ;
         const export_image = appConfig.showExportImage ? <ImageExport map={map}></ImageExport> : "";
         const about = appConfig.showAbout ? <CartoviewAbout/> : <IconButton iconClassName="fa fa-globe about-ico"></IconButton>;
         const selection = appConfig.showAttributesTable || appConfig.showCharts ? <Select toggleGroup='navigation' map={map}/> : "" ;
         const navigation =appConfig.showAttributesTable || appConfig.showCharts ? <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/> :"";
-        const app_toolbar=<Header iconElementLeft={about}>
-          {save_load_control}
+        const app_toolbar=<Header title={title} showLeftIcon={false}>
+            {save_load_control}
+            {query_button}
             {export_image}
             {WFST}
+            {add_layer_modal}
+            {layerSwitcher}
+            {search_button}
+            {basemap_button}
             {measure_tool}
             {selection}
             {navigation}
+
           </Header>;
 
         let info_popup = appConfig.showInfoPopup ? <InfoPopup toggleGroup='navigation' toolId='nav'
@@ -322,30 +329,34 @@ class CartoviewViewer extends React.Component {
             <div id='content'>
                 {error}
                 {app_toolbar}
-                {add_layer_modal}
+
                 {charts_button}
-                {query_button}
-                {basemap_button}
-                {search_button}
+
+
+
                 <MapPanel useHistory={true} id='map' map={map}/>
-                {globe}
-                {print}
-                {geocoding_paper}
-                {homeBtn}
-                {layerSwitcher}
-                {geolocation}
-                {zoomControls}
-                {load}
-                {query_panel}
-                {North}
-                {charts_panel}
-                {playback_panel}
-                {geoserver_modal}
-                {base_map_modal}
+                <div style={{display:'block', position :'fixed' ,zIndex:100 ,top:100,right:20}}>
+                  {globe}
+                  {print}
+                  {geocoding_paper}
+                  {homeBtn}
+
+                  {geolocation}
+                  {zoomControls}
+                  {load}
+                  {query_panel}
+                  {North}
+
+                  {geoserver_modal}
+                  {base_map_modal}
+                </div>
+
                 <div id='popup' className='ol-popup'>
                     {info_popup}
                     {edit_popup}
                 </div>
+                {charts_panel}
+                {playback_panel}
             </div>
         );
     }

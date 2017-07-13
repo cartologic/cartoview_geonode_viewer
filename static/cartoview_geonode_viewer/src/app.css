@@ -65,9 +65,9 @@ html, body {
 }
 
 #globe-button {
-    position: absolute;
-    right: 20px;
-    top: 280px;
+    position: relative;
+    /*right: 20px;
+    top: 280px;*/
 }
 
 .layer-tree-panel {
@@ -276,8 +276,8 @@ html, body {
 
 .layer-switcher {
   position: fixed;
-top: 70px !important;
-left: 20px;
+top: 55% !important;
+right: 2%;
 z-index: 1;
 /* right: 20px; */
 }
@@ -329,8 +329,8 @@ z-index: 1;
 #rotate-button {
     position: absolute;
     top: 370px;
-    left: 20px;
-    right: auto;
+    right: 20px;
+
 
 }
 #geocoding_paper{
@@ -498,6 +498,7 @@ z-index: 1;
       top: 120px !important;
     }
     #home-button {
+      postion: relative;
         right: 70px !important;
         top: 70px !important;
     }
