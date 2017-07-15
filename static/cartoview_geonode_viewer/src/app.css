@@ -45,15 +45,13 @@ html, body {
 }
 
 #zoom-buttons {
-    position: absolute;
-    top: 70px;
-    right: 20px;
+    position: relative;
+        padding: 10%;
 }
 
 #home-button {
-    position: absolute;
-    right: 20px;
-    top: 330px;
+      postion: relative;
+          padding: 10%;
 }
 .about-ico{
   color: black !important;
@@ -62,19 +60,20 @@ html, body {
     color: #000000 !important;
      }
 #print-button {
-    /*position: absolute;
-    top: 230px;
-    right: 20px;*/
+    position: relative;
+        padding: 10%;
+
 }
 
 #globe-button {
-    position: absolute;
-    right: 20px;
-    top: 230px;
+    position: relative;
+        padding: 10%;
+    /*right: 20px;
+    top: 280px;*/
 }
 
 .layer-tree-panel {
-    max-height: 94vh !important;
+    /*max-height: 94vh !important;*/
 }
 
 #debug {
@@ -126,16 +125,20 @@ html, body {
 }
 
 #geolocation-control {
-    position: absolute;
-    top: 175px;
-    right: 20px;
+    position: relative;
+        padding: 10%;
 }
 
 .layer-switcher.shown .layer-tree-panel {
     display: block;
-    padding-right: 20px;
-}
 
+
+}
+div.layer-tree-panel{
+  position: fixed;
+  margin-left: -60%;
+  margin-top: -15%;
+}
 .attributes-table {
     display: none;
     position: fixed;
@@ -149,6 +152,7 @@ html, body {
 .layerselect {
     padding: 10px;
     background: white;
+
 }
 
 .ol-scale-line {
@@ -283,10 +287,13 @@ html, body {
     z-index: 1;
 }
 .layer-switcher {
-  /*position: fixed;*/
-/*top: 90 px !important;
-left: 20px;*/
-z-index: 1100010;
+  position: relative;
+  padding: 10%;
+  z-index: 100;
+  /*right: 20px;
+  top:70px;*/
+
+
 /* right: 20px; */
 }
 .feature-table{
@@ -327,6 +334,12 @@ z-index: 1100010;
   /*top: 270px;
   left: 20px;*/
 }
+.search-cancel-btn{
+  float: right;
+}
+div.search-cancel-btn{
+  margin: 25px;
+}
 .navigation-btn{
     position: fixed;
     top: 390px !important;
@@ -335,7 +348,7 @@ z-index: 1100010;
 }
 .nav-icon{
 
-   left: 0px; 
+   left: 0px;
 }
 .search_button{
   /*position: fixed;*/
@@ -345,10 +358,9 @@ z-index: 1100010;
   left: 20px;*/
 }
 #rotate-button {
-    position: absolute;
-    top: 280px;
-    right: 20px;
-  
+    position: relative;
+    padding: 10%;
+
 
 }
 #geocoding_paper{
@@ -489,13 +501,10 @@ z-index: 1100010;
         width: 180px !important;
     }
 
-    .layer-switcher {
-        max-width: 280px !important;
-    }
 
-    .layer-selector {
+    /*.layer-selector {
         width: 150px !important;
-    }
+    }*/
 
     .attributes-table {
         /*overflow: scroll !important;*/
@@ -515,12 +524,15 @@ z-index: 1100010;
 
 @media screen and (max-height: 414px) {
     #rotate-button{
-      left: 70px !important;
-      top: 120px !important;
+        postion: relative;
+            padding: 10%;
+      /*left: 70px !important;
+      top: 120px !important;*/
     }
     #home-button {
-        right: 70px !important;
-        top: 70px !important;
+      postion: relative;
+      padding: 10%;
+
     }
     .search_button {
         left: 70px !important;
@@ -545,7 +557,7 @@ z-index: 1100010;
 
 }
 .headerIcons {
-  
+
     right: 3px !important ;
     bottom:3px !important;
   }
