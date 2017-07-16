@@ -9,9 +9,9 @@ global.IntlProvider = IntlProvider;
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import CustomTheme from './theme';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import AppBar  from 'material-ui/AppBar';
+import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentAdd from 'material-ui/svg-icons/action/view-list';
 import MenuIcon from 'material-ui/svg-icons/image/dehaze';
 import MapConfig from '@boundlessgeo/sdk/components/MapConfig';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
@@ -58,6 +58,8 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import {List, ListItem} from 'material-ui/List';
 import Button from '@boundlessgeo/sdk/components/Button';
+import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
 injectTapEventPlugin();
 
 let printLayouts = [
@@ -96,11 +98,13 @@ let printLayouts = [
 class CartoviewViewer extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       errors: [],
       errorOpen: false,
       addLayerModalOpen: false,
-      baseMapModalOpen: false
+      baseMapModalOpen: false,
+      infoModalOpen: false
     };
   }
 
@@ -151,7 +155,7 @@ class CartoviewViewer extends React.Component {
   }
 
   componentDidMount() {
-    
+
     // if (appConfig.showMapOverView) {
     //     map.addControl(new ol.control.OverviewMap({
     //         className: 'ol-overviewmap ol-custom-overviewmap',
@@ -196,10 +200,26 @@ class CartoviewViewer extends React.Component {
   _toggleQuery() {
     this._toggle(document.getElementById('query-panel'));
   }
+  _toggleFeatureTable() {
+    this._toggle(document.getElementById('table'));
+  }
   _toggleGeocoding() {
     this._toggle(document.getElementById('geocoding_paper'));
   }
+  handleInfoOpen = () => {
+    this.setState({infoModalOpen: true});
+  };
+
+  handleInfoClose = () => {
+    this.setState({infoModalOpen: false});
+  };
   render() {
+    const actions = [< RaisedButton label = "Cancel" primary = {
+        true
+      }
+      onTouchTap = {
+        this.handleInfoClose
+      } />]
     var error;
     if (this.state.errors.length > 0) {
       var msg = '';
@@ -236,9 +256,9 @@ class CartoviewViewer extends React.Component {
       : "";
     const query_panel = appConfig.showQuery
       ? <div id="query-panel" className='query-panel'>
-      <QueryBuilder map={map}/>
-     <RaisedButton label="cancel"/>
-      </div>
+          <QueryBuilder map={map}/>
+          <RaisedButton label="cancel"/>
+        </div>
       : "";
     const measure = appConfig.showMeasure
       ? <Measure toggleGroup='navigation' map={map}></Measure>
@@ -279,6 +299,7 @@ class CartoviewViewer extends React.Component {
           <i className="fa fa-bar-chart"></i>
         </FloatingActionButton>
       : "";
+    const infomodal_btn = <Button className="sdk-component" tooltip="About" iconClassName='headerIcons fa fa-info  ' style={this.props.style} buttonType='Icon' onTouchTap={this.handleInfoOpen.bind(this)} mini={true}></Button>
     const geoserver_modal = appConfig.showAddLayerModal
       ? <div><AddLayerModal open={this.state.addLayerModalOpen} onRequestClose={this._handleRequestCloseModal.bind(this)} map={map} srsName={map.getView().getProjection().getCode()} allowUserInput={true} sources={[{
             url: geoserver_url + 'wms',
@@ -305,19 +326,16 @@ class CartoviewViewer extends React.Component {
       : "";
     const geocoding_paper = appConfig.showGeoCoding
       ? <Paper id="geocoding_paper" zDepth={3}><Geocoding maxResult={5}/>
-      <RaisedButton className="search-cancel-btn" label="canel" onTouchTap={this._toggleGeocoding.bind(this)}  /><GeocodingResults map={map}/>
+          <RaisedButton className="search-cancel-btn" label="canel" onTouchTap={this._toggleGeocoding.bind(this)}/><GeocodingResults map={map}/>
 
-
-      </Paper>
+        </Paper>
       : "";
     let measure_tool = appConfig.showMeasure
       ? <Measure toggleGroup='navigation' map={map}/>
       : "";
     const save_load_control = appConfig.showmapconfig
-      ? 
-      
-      <MapConfig map={map}/>
-      
+      ? <MapConfig map={map}/>
+
       : "";
     const query_button = appConfig.showQuery
       ? <Button className="sdk-component" tooltip="add filter " iconClassName='headerIcons  fa fa-filter' style={this.props.style} buttonType='Icon' onTouchTap={this._toggleQuery.bind(this)} mini={true}></Button>
@@ -343,7 +361,19 @@ class CartoviewViewer extends React.Component {
     const navigation = appConfig.showAttributesTable || appConfig.showCharts
       ? <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/>
       : "";
+    const infoModal = <Dialog title={title} actions={actions} modal={false} open={this.state.infoModalOpen} onRequestClose={this.handleInfoClose}>
+      {abstract}
+    </Dialog>
+    const featuretable = <div id="table" className='row'><FeatureTable map={map} layer={map.getLayers().item(1)}/></div>
+    const table_btn = appConfig.showAttributesTable
+      ? <div id='table_btn'>
+          <FloatingActionButton mini={true} onTouchTap={this._toggleFeatureTable.bind(this)}>
+            <ContentAdd/>
+          </FloatingActionButton>
+        </div>
+      : "";
     const app_toolbar = <Header title={title} showLeftIcon={false}>
+      {infomodal_btn}
       {save_load_control}
       {query_button}
       {export_image}
@@ -353,8 +383,8 @@ class CartoviewViewer extends React.Component {
       {search_button}
       {basemap_button}
       {measure_tool}
-      {selection}
-      {navigation}
+      {/*selection*/}
+      {/*navigation*/}
     </Header>;
     let info_popup = appConfig.showInfoPopup
       ? <InfoPopup toggleGroup='navigation' toolId='nav' infoFormat='application/vnd.ogc.gml' map={map}/>
@@ -368,9 +398,7 @@ class CartoviewViewer extends React.Component {
     /* end controllers */
     return (
       <div id='content'>
-
         {error}
-
         {app_toolbar}
         <MapPanel useHistory={true} id='map' map={map}/>
         <div style={{
@@ -380,31 +408,26 @@ class CartoviewViewer extends React.Component {
           top: 100,
           right: 20
         }}>
+          {layerSwitcher}
           {zoomControls}
           {homeBtn}
+          {table_btn}
           {geolocation}
           {globe}
           {North}
-          
-          
           {load}
-
-
           {print}
-          {layerSwitcher}
-
         </div>
-
         {query_panel}
         {geoserver_modal}
         {base_map_modal}
+        {infoModal}
         {geocoding_paper}
         <div id='popup' className='ol-popup'>
           {info_popup}
           {edit_popup}
         </div>
-
-
+        {featuretable}
       </div>
     );
   }

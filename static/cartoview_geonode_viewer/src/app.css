@@ -53,6 +53,11 @@ html, body {
       postion: relative;
           padding: 10%;
 }
+#table_btn{
+
+  postion: relative;
+      padding: 10%;
+  }
 .about-ico{
   color: black !important;
 }
@@ -137,7 +142,7 @@ html, body {
 div.layer-tree-panel{
   position: fixed;
   margin-left: -60%;
-  margin-top: -15%;
+  margin-top: 20%;
 }
 .attributes-table {
     display: none;
@@ -198,7 +203,17 @@ div.layer-tree-panel{
     left: 1px;
     buttom: 1px;
 }*/
+#table{
+  position: fixed;
+bottom: 0px;
+display: none;
 
+width: 100%;
+z-index: 121;
+padding: 0px;
+min-height: 100px;
+overflow: hidden;
+}
 .chart-panel {
     display: none;
     position: fixed;
