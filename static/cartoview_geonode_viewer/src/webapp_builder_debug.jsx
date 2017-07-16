@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CartoviewViewer from './webapp_buider';
 
 class CartoviewViewerDebug extends React.Component {
@@ -50,7 +51,6 @@ class CartoviewViewerDebug extends React.Component {
     }
 }
 CartoviewViewer.props = {
-    config: React.PropTypes.object.isRequired
+    config: PropTypes.object.isRequired
 };
 export default CartoviewViewerDebug;
-global.CartoviewViewerDebug = CartoviewViewerDebug;
