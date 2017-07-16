@@ -386,9 +386,11 @@ class CartoviewViewer extends React.Component {
       {/*selection*/}
       {/*navigation*/}
     </Header>;
-    let info_popup = appConfig.showInfoPopup
+    //TODO: Enable INFO BY DEFAULT & Disable EDIT , Edit working fine if info popup disabled
+    let info_popup = appConfig.showInfoPopup && !appConfig.showEditPopup
       ? <InfoPopup toggleGroup='navigation' toolId='nav' infoFormat='application/vnd.ogc.gml' map={map}/>
       : "";
+
     let edit_popup = appConfig.showEditPopup
       ? <EditPopup map={map}/>
       : "";
@@ -400,7 +402,9 @@ class CartoviewViewer extends React.Component {
       <div id='content'>
         {error}
         {app_toolbar}
-        <MapPanel useHistory={true} id='map' map={map}/>
+        <MapPanel useHistory={true} id='map' map={map}>
+          {load}
+        </MapPanel>
         <div style={{
           display: 'block',
           position: 'fixed',
@@ -415,18 +419,19 @@ class CartoviewViewer extends React.Component {
           {geolocation}
           {globe}
           {North}
-          {load}
           {print}
         </div>
         {query_panel}
         {geoserver_modal}
         {base_map_modal}
         {infoModal}
+
         {geocoding_paper}
         <div id='popup' className='ol-popup'>
           {info_popup}
           {edit_popup}
         </div>
+
         {featuretable}
       </div>
     );
