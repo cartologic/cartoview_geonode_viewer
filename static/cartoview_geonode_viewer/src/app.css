@@ -212,6 +212,7 @@ width: 100%;
 z-index: 121;
 padding: 0px;
 min-height: 100px;
+max-height: 35%;
 overflow: hidden;
 }
 .chart-panel {
