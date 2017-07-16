@@ -1,18 +1,14 @@
 import React from 'react';
-global.React = React;
 import ReactDOM from 'react-dom';
-global.ReactDOM = ReactDOM;
+import PropTypes from 'prop-types';
 import ol from 'openlayers';
 import './map'
 import {IntlProvider} from 'react-intl';
-global.IntlProvider = IntlProvider;
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import CustomTheme from './theme';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import AppBar from 'material-ui/AppBar';
-import Drawer from 'material-ui/Drawer';
 import ContentAdd from 'material-ui/svg-icons/action/view-list';
-import MenuIcon from 'material-ui/svg-icons/image/dehaze';
 import MapConfig from '@boundlessgeo/sdk/components/MapConfig';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -21,8 +17,6 @@ import ImageExport from '@boundlessgeo/sdk/components/ImageExport';
 import Geocoding from '@boundlessgeo/sdk/components/Geocoding';
 import AddLayerModal from '@boundlessgeo/sdk/components/AddLayerModal';
 import CartoviewAbout from './cartoview_about';
-import Bookmarks from '@boundlessgeo/sdk/components/Bookmarks';
-import Chart from '@boundlessgeo/sdk/components/Chart';
 import EditPopup from '@boundlessgeo/sdk/components/EditPopup';
 import GeocodingResults from '@boundlessgeo/sdk/components/GeocodingResults';
 import Geolocation from '@boundlessgeo/sdk/components/Geolocation';
@@ -37,7 +31,6 @@ import Playback from '@boundlessgeo/sdk/components/Playback';
 import QGISPrint from '@boundlessgeo/sdk/components/QGISPrint';
 import QueryBuilder from '@boundlessgeo/sdk/components/QueryBuilder';
 import Rotate from '@boundlessgeo/sdk/components/Rotate';
-import ToolActions from '@boundlessgeo/sdk/actions/ToolActions';
 import DrawFeature from '@boundlessgeo/sdk/components/DrawFeature';
 import Zoom from '@boundlessgeo/sdk/components/Zoom';
 import BaseMapModal from '@boundlessgeo/sdk/components/BaseMapModal';
@@ -52,11 +45,6 @@ import Navigation from '@boundlessgeo/sdk/components/Navigation';
 import Paper from 'material-ui/Paper';
 import FeatureTable from '@boundlessgeo/sdk/components/FeatureTable';
 import Header from '@boundlessgeo/sdk/components/Header';
-import {lightBlue600} from 'material-ui/styles/colors';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
-import {List, ListItem} from 'material-ui/List';
 import Button from '@boundlessgeo/sdk/components/Button';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
@@ -130,8 +118,6 @@ class CartoviewViewer extends React.Component {
       }
       MapConfigService.load(MapConfigTransformService.transform(props.config, errors, tileServices), map, this.props.proxy);
       for (var i = 0, ii = errors.length; i < ii; ++i) {
-        // ignore the empty baselayer since we have checkbox now for base layer group
-        // ignore the empty layer from the local source
         if (errors[i].layer.type !== 'OpenLayers.Layer' && errors[i].msg !== 'Unable to load layer undefined') {
           if (window.console && window.console.warn) {
             window.console.warn(errors[i]);
@@ -155,23 +141,12 @@ class CartoviewViewer extends React.Component {
   }
 
   componentDidMount() {
-
-    // if (appConfig.showMapOverView) {
-    //     map.addControl(new ol.control.OverviewMap({
-    //         className: 'ol-overviewmap ol-custom-overviewmap',
-    //         collapsed: appConfig.overview_config.collapsed,
-    //         layers: []
-    //     }));
-    // }
     if (appConfig.showMousePostion) {
       map.addControl(new ol.control.MousePosition({"projection": "EPSG:4326", "undefinedHTML": "<span style='color: black'>Out Of Map</span>", "coordinateFormat": ol.coordinate.createStringXY(4)}));
     }
     if (appConfig.showScalebar) {
       map.addControl(new ol.control.ScaleLine({"minWidth": appConfig.scalebar_config.width, "units": appConfig.scalebar_config.units}))
     }
-    // if (appConfig.showZoomSlider) {
-    //     map.addControl(new ol.control.ZoomSlider());
-    // }
   }
 
   _toggle(el) {
@@ -226,7 +201,7 @@ class CartoviewViewer extends React.Component {
       for (var i = 0, ii = this.state.errors.length; i < ii; i++) {
         msg += this.state.errors[i].msg + '. ';
       }
-      error = (<Snackbar autoHideDuration={5000} open={this.state.errorOpen} message={msg} onRequestClose={this._handleRequestClose.bind(this)}/>);
+      error = (<Snackbar autoHideDuration={10000} open={this.state.errorOpen} message={msg} onRequestClose={this._handleRequestClose.bind(this)}/>);
     }
     /* controllers */
     let toolbarOptions = {
@@ -269,35 +244,8 @@ class CartoviewViewer extends React.Component {
     const load = appConfig.showLoadingPanel
       ? <LoadingPanel map={map}></LoadingPanel>
       : "";
-    var charts = appConfig.showCharts
-      ? appConfig.charts
-      : [];
-    if (appConfig.showCharts && appConfig.charts.length != 0) {
-      map.once('postrender', function(event) {
-        for (var i = 0; i < map.getLayers().getArray().length; i++) {
-          for (var j = 0; j < appConfig.charts.length; j++) {
-            if (map.getLayers().item(i).get('name') == appConfig.charts[j].layer) {
-              appConfig.charts[j].layer = map.getLayers().item(i).get('id')
-            }
-
-          }
-        }
-        for (var i = 0; i < appConfig.charts.length; i++) {
-          appConfig.charts[i].displayMode = parseInt(appConfig.charts[i].displayMode);
-          appConfig.charts[i].operation = parseInt(appConfig.charts[i].operation);
-        }
-      });
-    }
     const add_layer_modal = appConfig.showAddLayerModal
       ? <Button className="sdk-component" tooltip="add layer " iconClassName='headerIcons fa fa-plus  ' style={this.props.style} buttonType='Icon' onTouchTap={(e) => this._toggleAddLayerModal(this)} mini={true}></Button>
-      : "";
-    const charts_button = appConfig.showCharts
-      ? <FloatingActionButton className="charts_button" onTouchTap={(e) => {
-          e.preventDefault();
-          this._toggleChartPanel(this)
-        }} mini={true}>
-          <i className="fa fa-bar-chart"></i>
-        </FloatingActionButton>
       : "";
     const infomodal_btn = <Button className="sdk-component" tooltip="About" iconClassName='headerIcons fa fa-info  ' style={this.props.style} buttonType='Icon' onTouchTap={this.handleInfoOpen.bind(this)} mini={true}></Button>
     const geoserver_modal = appConfig.showAddLayerModal
@@ -308,9 +256,6 @@ class CartoviewViewer extends React.Component {
           }
         ]}/></div>
       : "";
-    const charts_panel = (appConfig.showCharts && appConfig.charts.length != 0)
-      ? <div id="chart-panel" className='chart-panel'><Chart ref='chartPanel' combo={true} charts={charts}/></div>
-      : "";
     const geolocation = appConfig.showGeoLocation
       ? <div id="geolocation-control">
           <Geolocation map={map}></Geolocation>
@@ -320,9 +265,6 @@ class CartoviewViewer extends React.Component {
       ? <div id="rotate-button">
           <Rotate autoHide={appConfig.north_config.autoHide} map={map}></Rotate>
         </div>
-      : "";
-    const WFST = appConfig.showWFS_T
-      ? <DrawFeature map={map}></DrawFeature>
       : "";
     const geocoding_paper = appConfig.showGeoCoding
       ? <Paper id="geocoding_paper" zDepth={3}><Geocoding maxResult={5}/>
@@ -355,12 +297,8 @@ class CartoviewViewer extends React.Component {
     const about = appConfig.showAbout
       ? <CartoviewAbout/>
       : <IconButton iconClassName="fa fa-globe about-ico"></IconButton>;
-    const selection = appConfig.showAttributesTable || appConfig.showCharts
-      ? <Select toggleGroup='navigation' map={map}/>
-      : "";
-    const navigation = appConfig.showAttributesTable || appConfig.showCharts
-      ? <Navigation secondary={true} toggleGroup='navigation' toolId='nav'/>
-      : "";
+    const selection = <Select toggleGroup='navigation' map={map}/>
+    const navigation =<Navigation secondary={true} toggleGroup='navigation' toolId='nav'/>
     const infoModal = <Dialog title={title} actions={actions} modal={false} open={this.state.infoModalOpen} onRequestClose={this.handleInfoClose}>
       {abstract}
     </Dialog>
@@ -377,14 +315,12 @@ class CartoviewViewer extends React.Component {
       {save_load_control}
       {query_button}
       {export_image}
-      {WFST}
       {add_layer_modal}
-
       {search_button}
       {basemap_button}
       {measure_tool}
-      {/*selection*/}
-      {/*navigation*/}
+      {selection}
+      {navigation}
     </Header>;
     //TODO: Enable INFO BY DEFAULT & Disable EDIT , Edit working fine if info popup disabled
     let info_popup = appConfig.showInfoPopup && !appConfig.showEditPopup
@@ -438,13 +374,13 @@ class CartoviewViewer extends React.Component {
   }
 }
 CartoviewViewer.props = {
-  config: React.PropTypes.object,
-  proxy: React.PropTypes.string,
-  mode: React.PropTypes.string,
-  server: React.PropTypes.string
+  config: PropTypes.object,
+  proxy: PropTypes.string,
+  mode: PropTypes.string,
+  server: PropTypes.string
 };
 CartoviewViewer.childContextTypes = {
-  muiTheme: React.PropTypes.object
+  muiTheme: PropTypes.object
 };
 export default CartoviewViewer;
 global.CartoviewViewer = CartoviewViewer;
