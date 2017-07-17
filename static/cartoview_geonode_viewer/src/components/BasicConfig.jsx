@@ -1,5 +1,18 @@
 import React, {Component} from 'react';
 import t from 'tcomb-form';
+
+// const zoomControls = t.struct({
+//   duration: t.Number,
+//   ZoomInTip: t.String,
+//   delta: t.Number,
+//   ZoomOutTip: t.String,
+// })
+//
+// const showZoomControls = t.struct({
+//   showZoomControl: t.Boolean,
+//   zoomControls: zoomControls
+// })
+
 const mapConfig = t.struct({
   title: t.String,
   abstract: t.String,
@@ -13,6 +26,8 @@ const mapConfig = t.struct({
   showBasemapSwitcher: t.Boolean,
   showLegend: t.Boolean,
 });
+
+
 const options = {
   fields: {
     showGeoLocation: {
@@ -53,12 +68,16 @@ const options = {
     },
   }
 };
+
+
 const Form = t.form.Form;
+
+
 export default class BasicConfig extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      defaultconf: {
+      defaultConfig: {
         title: this.props.instance.title || "No Title Provided",
         abstract: this.props.instance.abstract || "No Abstract Provided",
         showZoomControls: this.props.config
@@ -94,7 +113,8 @@ export default class BasicConfig extends Component {
       }
     }
   }
-  componentDidMount() {}
+
+
   save() {
     var basicConfig = this.refs.form.getValue();
     if (basicConfig) {
@@ -116,6 +136,8 @@ export default class BasicConfig extends Component {
       this.props.onComplete(properConfig)
     }
   }
+
+
   render() {
     return (
       <div className="row">
@@ -129,7 +151,11 @@ export default class BasicConfig extends Component {
 
         </div>
         <hr></hr>
-        <Form ref="form" value={this.state.defaultconf} type={mapConfig} options={options}/>
+        <Form
+          ref="form"
+          value={this.state.defaultConfig}
+          type={mapConfig}
+          options={options} />
       </div>
     )
   }

@@ -17,7 +17,7 @@ eggs/
 lib/
 lib64/
 parts/
-sdist/
+dist/
 var/
 *.egg-info/
 .installed.cfg
@@ -88,3 +88,5 @@ ENV/
 .ropeproject
 node_modules/
 .DS_Store
+
+TcombEngin.jsx

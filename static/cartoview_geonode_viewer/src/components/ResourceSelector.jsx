@@ -15,6 +15,8 @@ export default class ResourceSelector extends Component {
       mymaps:true
     }
   }
+
+
   loadResources(off) {
     this.setState({loading: true})
     const limit = typeof(this.props.limit) === "undefined"
@@ -38,9 +40,12 @@ export default class ResourceSelector extends Component {
       console.error(error);
     });
   }
+
+
   componentDidMount() {
     this.loadResources(0)
   }
+
 
   handlePageClick = (data) => {
     let selected = data.selected;
@@ -48,13 +53,16 @@ export default class ResourceSelector extends Component {
     this.loadResources(offset)
 
   };
+
+
   handleUserMapsChecked() {
     const flag_maps=this.state.mymaps
     console.log("before",flag_maps);
     this.setState({mymaps:!flag_maps},()=>this.loadResources(0));
     console.log("after",flag_maps);
-
   }
+
+  
   handleSearch() {
     if (this.refs.search.value != '') {
       this.setState({loading: true})

@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
 import './css/app.css'
+
 import Navigator from './components/Navigator.jsx';
 import ResourceSelector from './components/ResourceSelector.jsx'
 import BasicConfig from './components/BasicConfig.jsx'
 import MapTools from './components/MapTools.jsx'
 import Reporting from './components/Reporting.jsx'
+
 import EditService from './services/editService.jsx'
+
 export default class Edit extends Component {
   constructor(props) {
 
     super(props)
-    console.log(this.props.instance);
+    // console.log(this.props.instance);
     this.state = {
       step: 0,
       config: {},

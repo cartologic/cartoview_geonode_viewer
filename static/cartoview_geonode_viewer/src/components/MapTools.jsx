@@ -7,6 +7,8 @@ const mapConfig = t.struct({
   showAttributesTable: t.Boolean
 });
 const Form = t.form.Form;
+
+
 export default class MapTools extends Component {
   constructor(props) {
     super(props)
@@ -28,13 +30,16 @@ export default class MapTools extends Component {
       }
     }
   }
-  componentDidMount() {}
+
+
   save() {
     var basicConfig = this.refs.form.getValue();
     if (basicConfig) {
       this.props.onComplete(basicConfig)
     }
   }
+
+  
   render() {
     return (
       <div className="row">
