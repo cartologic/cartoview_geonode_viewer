@@ -224,9 +224,11 @@ class CartoviewViewer extends React.Component {
     const layerSwitcher = appConfig.showLayerSwitcher
       ? <LayerList allowFiltering={true} showOpacity={true} allowStyling={true} downloadFormat={'GPX'} showDownload={true} allowRemove={true} showGroupContent={true} showZoomTo={true} allowLabeling={true} allowEditing={true} allowReordering={true} showTable={true} handleResolutionChange={true} includeLegend={appConfig.showLegend} map={map}/>
       : '';
+      //TODO: ADD These options in Configration Form
+      // <Zoom duration={appConfig.zoom_config.duration} zoomInTipLabel={appConfig.zoom_config.zoomInTipLabel} zoomOutTipLabel={appConfig.zoom_config.zoomOutTipLabel} delta={appConfig.zoom_config.delta} map={map}></Zoom>
     const zoomControls = appConfig.showZoomControls
       ? <div id='zoom-buttons'>
-          <Zoom duration={appConfig.zoom_config.duration} zoomInTipLabel={appConfig.zoom_config.zoomInTipLabel} zoomOutTipLabel={appConfig.zoom_config.zoomOutTipLabel} delta={appConfig.zoom_config.delta} map={map}></Zoom>
+      <Zoom map={map}></Zoom>
         </div>
       : "";
     const query_panel = appConfig.showQuery
@@ -261,9 +263,11 @@ class CartoviewViewer extends React.Component {
           <Geolocation map={map}></Geolocation>
         </div>
       : "";
+      //TODO:ReEnable these options in configration Form
+                //<Rotate autoHide={appConfig.north_config.autoHide} map={map}></Rotate>
     const North = appConfig.showNorth
       ? <div id="rotate-button">
-          <Rotate autoHide={appConfig.north_config.autoHide} map={map}></Rotate>
+      <Rotate autoHide={true} map={map}></Rotate>
         </div>
       : "";
     const geocoding_paper = appConfig.showGeoCoding
