@@ -137,6 +137,14 @@ export default class BasicConfig extends Component {
     }
   }
 
+  
+
+  // <div className="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+  //   <button
+  //     className="btn btn-primary pull-right"
+  //     onClick={() => this.props.onComplete()}>Previous</button>
+  // </div>
+
 
   render() {
     return (
@@ -145,12 +153,13 @@ export default class BasicConfig extends Component {
           <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8">
             <h2>{'General & Map Navigation'}</h2>
           </div>
+
           <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <button className="btn btn-primary pull-right" onClick={this.save.bind(this)}>Next</button>
           </div>
-
         </div>
         <hr></hr>
+
         <Form
           ref="form"
           value={this.state.defaultConfig}
