@@ -43,9 +43,9 @@ export default class Reporting extends Component {
       <div className="row">
         <div className="row">
           <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-            <h2>{'Reporting'}</h2>
+            <h4>{'Reporting'}</h4>
           </div>
-          
+
           <div className="col-xs-4 col-sm-4 col-md-2 col-lg-2">
             <button
               className="btn btn-primary pull-right"
