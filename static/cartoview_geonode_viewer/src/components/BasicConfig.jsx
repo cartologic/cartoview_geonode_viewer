@@ -14,8 +14,6 @@ import t from 'tcomb-form';
 // })
 
 const mapConfig = t.struct({
-  title: t.String,
-  abstract: t.String,
   showZoomControls: t.Boolean,
   showNorth: t.Boolean,
   showMousePostion: t.Boolean,
@@ -78,8 +76,6 @@ export default class BasicConfig extends Component {
     super(props)
     this.state = {
       defaultConfig: {
-        title: this.props.instance.title || "No Title Provided",
-        abstract: this.props.instance.abstract || "No Abstract Provided",
         showZoomControls: this.props.config
           ? this.props.config.showZoomControls
           : true,
@@ -119,8 +115,6 @@ export default class BasicConfig extends Component {
     var basicConfig = this.refs.form.getValue();
     if (basicConfig) {
       const properConfig = {
-        title: basicConfig.title,
-        abstract: basicConfig.abstract,
         config: {
           showZoomControls: basicConfig.showZoomControls,
           showNorth: basicConfig.showNorth,
@@ -137,7 +131,7 @@ export default class BasicConfig extends Component {
     }
   }
 
-  
+
 
   // <div className="col-xs-6 col-sm-4 col-md-2 col-lg-2">
   //   <button

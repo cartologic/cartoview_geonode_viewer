@@ -87,11 +87,11 @@ export default class ResourceSelector extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+          <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
             <h4>{"Select Map "}</h4>
           </div>
 
-          <div className="col-xs-12 col-sm-8 col-md-4 col-lg-4">
+          <div className="col-xs-4 col-sm-8 col-md-4 col-lg-4">
             {(this.props.instance ? this.props.instance : false)
               ? <button className="btn btn-primary pull-right"
                   onClick={() => this.props.onComplete()}>Next</button>

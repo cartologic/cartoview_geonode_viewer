@@ -2,33 +2,37 @@ import React, {Component} from 'react';
 import './css/app.css'
 
 import Navigator from './components/Navigator.jsx';
+
 import ResourceSelector from './components/ResourceSelector.jsx'
+
+import MapBasicConfig from './components/MapBasicConfig.jsx'
 import BasicConfig from './components/BasicConfig.jsx'
 import MapTools from './components/MapTools.jsx'
 import Reporting from './components/Reporting.jsx'
 
 import EditService from './services/editService.jsx'
 
+
 export default class Edit extends Component {
   constructor(props) {
-
     super(props)
-    // console.log(this.props.instance);
     this.state = {
       step: 0,
       config: {},
       selectedResource: this.props.config.instance ? this.props.config.instance.map:undefined
     }
-    this.editService = new EditService({baseUrl: '/'});
+    this.editService = new EditService({baseUrl: '/'})
   }
+
 
   goToStep(step) {
     this.setState({step});
   }
+
+
   render() {
     var {step} = this.state
-    const steps = [
-      {
+    const steps = [{
         label: "Select Map",
         component: ResourceSelector,
         props: {
@@ -47,8 +51,26 @@ export default class Edit extends Component {
             this.goToStep(++step)
           }
         }
-      }, {
-        label: "General & Map Navigation",
+      },{
+        label: "General ",
+        component: MapBasicConfig,
+        props: {
+          instance: this.state.selectedResource,
+          config: this.props.config.instance ? this.props.config.instance.config : undefined,
+          onComplete: (basicConfig) => {
+            let {step} = this.state;
+            this.setState({
+              config: Object.assign(this.state.config, basicConfig)
+            })
+            this.goToStep(++step)
+          },
+          onPrevious: (basicConfig) => {
+            let {step} = this.state;
+            this.goToStep(step-=1)
+          }
+        }
+      },{
+        label: "Map Navigation Tool",
         component: BasicConfig,
         props: {
           instance: this.state.selectedResource,
@@ -62,8 +84,7 @@ export default class Edit extends Component {
             this.goToStep(++step)
           }
         }
-      },
-      {
+      },{
         label: "Map Tools",
         component: MapTools,
         props: {
@@ -81,8 +102,7 @@ export default class Edit extends Component {
             this.goToStep(++step)
           }
         }
-      },
-      {
+      },{
         label: "Reporting",
         component: Reporting,
         props: {
