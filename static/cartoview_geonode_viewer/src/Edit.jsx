@@ -29,6 +29,11 @@ export default class Edit extends Component {
     this.setState({step});
   }
 
+  onPrevious(){
+    let {step} = this.state;
+    this.goToStep(step-=1)
+  }
+
 
   render() {
     var {step} = this.state
@@ -64,13 +69,10 @@ export default class Edit extends Component {
             })
             this.goToStep(++step)
           },
-          onPrevious: (basicConfig) => {
-            let {step} = this.state;
-            this.goToStep(step-=1)
-          }
+          onPrevious: () => {this.onPrevious()}
         }
       },{
-        label: "Map Navigation Tool",
+        label: "Map Navigation Tools",
         component: BasicConfig,
         props: {
           instance: this.state.selectedResource,
@@ -82,10 +84,11 @@ export default class Edit extends Component {
               config: Object.assign(this.state.config, basicConfig)
             })
             this.goToStep(++step)
-          }
+          },
+          onPrevious: () => {this.onPrevious()}
         }
       },{
-        label: "Map Tools",
+        label: "Map Assistive Tools",
         component: MapTools,
         props: {
           instance: this.state.selectedResource,
@@ -100,7 +103,8 @@ export default class Edit extends Component {
               console.log(this.state.config);
             })
             this.goToStep(++step)
-          }
+          },
+          onPrevious: () => {this.onPrevious()}
         }
       },{
         label: "Reporting",
@@ -120,7 +124,8 @@ export default class Edit extends Component {
             },()=>{
               this.editService.save(this.state.config,this.props.config.instance ? this.props.config.instance.id : undefined).then((res)=>window.location.href="/apps/cartoview_geonode_viewer/"+res.id+"/view")
             })
-          }
+          },
+          onPrevious: () => {this.onPrevious()}
         }
       }
 

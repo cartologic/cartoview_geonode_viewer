@@ -29,39 +29,30 @@ const mapConfig = t.struct({
 const options = {
   fields: {
     showGeoLocation: {
-      // you can use strings or JSX
       label: "Show Geo Location"
     },
     show3D: {
-      // you can use strings or JSX
       label: "Show 3D"
     },
     showZoomControls: {
-      // you can use strings or JSX
       label: "Show Zoom Buttons"
     },
     showNorth: {
-      // you can use strings or JSX
       label: "Show North Button"
     },
     showMousePostion: {
-      // you can use strings or JSX
       label: "Show Mouse Location"
     },
     showLayerSwitcher: {
-      // you can use strings or JSX
       label: "Show Layer Switcher Button"
     },
     showHome: {
-      // you can use strings or JSX
       label: "Show Initial Extent Button"
     },
     showBasemapSwitcher: {
-      // you can use strings or JSX
       label: "Show Base Switcher Button"
     },
     showLegend: {
-      // you can use strings or JSX
       label: "Show Layer Legend"
     },
   }
@@ -133,11 +124,7 @@ export default class BasicConfig extends Component {
 
 
 
-  // <div className="col-xs-6 col-sm-4 col-md-2 col-lg-2">
-  //   <button
-  //     className="btn btn-primary pull-right"
-  //     onClick={() => this.props.onComplete()}>Previous</button>
-  // </div>
+
 
 
   render() {
@@ -145,10 +132,16 @@ export default class BasicConfig extends Component {
       <div className="row">
         <div className="row">
           <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-            <h2>{'General & Map Navigation'}</h2>
+            <h4>{'Map Navigation '}</h4>
           </div>
 
-          <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <div className="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+            <button
+              className="btn btn-primary pull-right"
+              onClick={() => this.props.onPrevious()}>Previous</button>
+          </div>
+
+          <div className="col-xs-4 col-sm-4 col-md-2 col-lg-2">
             <button className="btn btn-primary pull-right" onClick={this.save.bind(this)}>Next</button>
           </div>
         </div>

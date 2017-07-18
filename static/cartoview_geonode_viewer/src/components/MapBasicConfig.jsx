@@ -36,7 +36,7 @@ export default class MapBasicConfig extends Component {
       defaultConfig: {
         title: this.props.instance.title || "No Title Provided",
         abstract: this.props.instance.abstract || "No Abstract Provided",
-        privacy: 'private'
+        access: 'private'
       }
     }
   }
