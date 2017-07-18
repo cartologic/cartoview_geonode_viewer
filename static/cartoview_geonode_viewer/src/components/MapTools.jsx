@@ -39,7 +39,7 @@ export default class MapTools extends Component {
     }
   }
 
-  
+
   render() {
     return (
       <div className="row">
@@ -48,7 +48,13 @@ export default class MapTools extends Component {
             <h2>{'Map Tools'}</h2>
           </div>
 
-          <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <div className="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+            <button
+              className="btn btn-primary pull-right"
+              onClick={() => this.props.onPrevious()}>Previous</button>
+          </div>
+
+          <div className="col-xs-4 col-sm-4 col-md-2 col-lg-2">
             <button className="btn btn-primary pull-right" onClick={this.save.bind(this)}>Next</button>
           </div>
 
